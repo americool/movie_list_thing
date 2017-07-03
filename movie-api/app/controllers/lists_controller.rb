@@ -15,7 +15,7 @@ class ListsController < ApplicationController
 
   def show_movies
     @list = List.find(params[:list_id])
-    render json: @list.users
+    render json: @list.movies
   end
 
   # POST /lists

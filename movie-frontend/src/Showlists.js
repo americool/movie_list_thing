@@ -56,7 +56,7 @@ class ShowLists extends Component {
      return (
       lists.map((list) => (
         <div>
-          <NavLink className={"listlink"} name={"/listview"} text={list.title}/>
+          <NavLink className={"listlink"} name={"/listview/"+list.id} text={list.title} />
         </div>
       ))
     )

@@ -7,7 +7,7 @@ class NavLink extends Component {
   render(){
     return (
       <HashRouter>
-        <Link to={this.props.name}> <p className={this.props.className}>{this.props.text}</p> </Link>
+        <Link to={this.props.name} > <p className={this.props.className}>{this.props.text}</p> </Link>
       </HashRouter>
     )
   }

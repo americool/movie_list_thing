@@ -12,8 +12,8 @@ class ListView extends Component {
   }
 
   componentDidMount(){
-    console.log(this.props)
-    const id = this.props.list
+    console.log(this.props.match)
+    const id = this.props.match.params.id
     this.setState({id})
     this.getMovies(id);
   }

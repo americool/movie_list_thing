@@ -13,7 +13,7 @@ const RouterConfig = () => (
       <Route exact path="/" component={Main}/>
       <Route path="/signup" component={SignUp}/>
       <Route path="/signin" component={SignIn}/>
-      <Route path="/listview" component={ListView}/>
+      <Route path="/listview/:id" component={ListView}/>
     </Switch>
   </HashRouter>
 );
