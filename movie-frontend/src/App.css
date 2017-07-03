@@ -66,6 +66,13 @@
   right: .75vw;
   bottom: 0vh;
 }
+
+.moviedetails{
+  position: absolute;
+  right: 45vw;
+  text-align: center;
+  bottom: 30vh;
+}
 @keyframes App-logo-spin {
   from { transform: rotate(0deg); }
   to { transform: rotate(360deg); }

@@ -1,6 +1,9 @@
 import React, {Component} from 'react';
 import axios from 'axios';
+import FindMovies from './Findmovies';
 import './App.css';
+
+const API_KEY = process.env.IMDB_KEY
 
 class ListView extends Component {
   constructor() {
@@ -8,11 +11,14 @@ class ListView extends Component {
     this.state = {
       id: null,
       movies: [],
+      displayOn: false,
+      movieProps: null,
+      movieId: null,
     }
+    this.renderMovieDetails = this.renderMovieDetails.bind(this);
   }
 
   componentDidMount(){
-    console.log(this.props.match)
     const id = this.props.match.params.id
     this.setState({id})
     this.getMovies(id);
@@ -24,21 +30,52 @@ class ListView extends Component {
       })
   }
 
-  renderLists = () =>{
+  renderMovies = () =>{
     const {movies} = this.state;
      return (
       movies.map((movie) => (
-        <div>
-          <p> {movie.title} </p>
+        <div onClick={() => {this.renderMovieDetails(movie.imdbid)}}>
+          <p> {movie.title}</p>
         </div>
       ))
     )
+  }
+
+  renderMovieDetails(id) {
+    axios.get('http://www.omdbapi.com/?apikey=' + API_KEY + '&i=' + id).then((res) => {
+      this.setState({displayOn: true, movieProps: res.data})
+      console.log(res);
+      if (res.data.Error){
+        alert("Movie Not Found!")
+      }
+    }).catch((error) => {
+      console.log(error);
+    });
+  }
+
+  displayMovie() {
+    if (this.state.displayOn){
+      const {Title, Released, Poster, Rated, Plot} = this.state.movieProps
+      return (
+        <div className={"moviedetails"}>
+          <br/>
+          <p> {Title} </p>
+          <p> {Released} </p>
+          <img src={Poster} />
+          <p> {Plot}</p>
+          <p> {Rated}</p>
+        </div>
+      )
+    }
   }
 
   render(){
     return(
       <div>
         <h2>Movie List Thing!</h2>
+        {this.renderMovies()}
+        <FindMovies id={this.state.id}/>
+        {this.displayMovie()}
       </div>
     )
   }

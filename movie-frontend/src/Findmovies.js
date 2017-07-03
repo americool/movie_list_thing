@@ -10,10 +10,10 @@ class FindMovies extends Component {
     this.state = {
       title: "",
       displayOn: false,
-      movieTitle: null,
       movieProps: null,
     }
     this.searchMovies = this.searchMovies.bind(this);
+    this.addMovie = this.addMovie.bind(this);
   }
 
   searchMovies() {
@@ -27,6 +27,22 @@ class FindMovies extends Component {
     }).catch((error) => {
       console.log(error);
     });
+  }
+
+  addMovie() {
+    const {Title, imdbID} = this.state.movieProps
+    axios.post('http://localhost:4000/movies/', {
+      movie: {
+        title: Title,
+        list_id: this.props.id,
+        imdbid: imdbID
+      }
+    }).then((res) => {
+      alert("Added!");
+      this.setState({displayOn: false, title:"", movieProps: null})
+    }).catch((error) => {
+      alert("didn't work");
+    })
   }
 
 
@@ -44,6 +60,8 @@ class FindMovies extends Component {
           <p> {Title} </p>
           <p> {Released} </p>
           <img src={Poster} />
+          <p> Add to List? </p>
+          <button onClick={this.addMovie}> YUP </button>
         </div>
       )
     }
