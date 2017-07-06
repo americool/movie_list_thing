@@ -34,9 +34,9 @@ class ListView extends Component {
     const {movies} = this.state;
      return (
       movies.map((movie) => (
-        <div onClick={() => {this.renderMovieDetails(movie.imdbid)}}>
-          <p> {movie.title}</p>
-        </div>
+        <div>
+        <button onClick={() => {this.renderMovieDetails(movie.imdbid)}}>
+          {movie.title}</button><br/></div>
       ))
     )
   }
@@ -70,11 +70,12 @@ class ListView extends Component {
   }
 
   render(){
+    const {id} = this.state;
     return(
       <div>
         <h2>Movie List Thing!</h2>
         {this.renderMovies()}
-        <FindMovies id={this.state.id}/>
+        <FindMovies id={id} refreshUpdate={this.getMovies(id)}/>
         {this.displayMovie()}
       </div>
     )

@@ -19,10 +19,12 @@ class FindMovies extends Component {
   searchMovies() {
     const title = this.convertString(this.state.title)
     axios.get('http://www.omdbapi.com/?apikey=' + API_KEY + '&t=' + title).then((res) => {
-      this.setState({displayOn: true, title:"", movieProps: res.data})
-      console.log(res);
       if (res.data.Error){
         alert("Movie Not Found!")
+      }
+      else{
+        this.setState({displayOn: true, title:"", movieProps: res.data})
+        console.log(res);
       }
     }).catch((error) => {
       console.log(error);
@@ -40,8 +42,9 @@ class FindMovies extends Component {
     }).then((res) => {
       alert("Added!");
       this.setState({displayOn: false, title:"", movieProps: null})
+      this.props.refreshUpdate
     }).catch((error) => {
-      alert("didn't work");
+      alert(error)
     })
   }
 
