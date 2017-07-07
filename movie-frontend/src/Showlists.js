@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import NavLink from './Navlink'
 import axios from 'axios';
 import ShowList from './Showlist';
+import { getLists } from './Helpers';
 import './App.css';
 
 class ShowLists extends Component {
@@ -30,9 +31,7 @@ class ShowLists extends Component {
   }
 
   getLists(id){
-    axios.get('http://localhost:4000/users/' + id + '/show_lists').then((res) => {
-      this.setState({lists: res.data.reverse()})
-    })
+    getLists(id).then(lists => this.setState({lists}))
   }
 
   addList(event){

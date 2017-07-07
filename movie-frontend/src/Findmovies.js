@@ -1,5 +1,7 @@
 import React, {Component} from 'react';
-import ShowList from './Showlist'
+import ShowList from './Showlist';
+import {getLists} from './Helpers';
+import Rating from './Rating';
 import axios from 'axios';
 
 const API_KEY = process.env.IMDB_KEY
@@ -12,6 +14,7 @@ class FindMovies extends Component {
       displayOn: false,
       movieProps: null,
       rating: "",
+      lists: [],
     }
     this.searchMovies = this.searchMovies.bind(this);
     this.addMovie = this.addMovie.bind(this);
@@ -20,17 +23,19 @@ class FindMovies extends Component {
   searchMovies(event) {
     event.preventDefault();
     const title = this.convertString(this.state.title)
+    let movieProps;
     axios.get('http://www.omdbapi.com/?apikey=' + API_KEY + '&t=' + title).then((res) => {
-      if (res.data.Error){
-        alert("Movie Not Found!")
-      }
-      else{
-        this.setState({displayOn: true, title:"", movieProps: res.data})
-        console.log(res);
-      }
+      if (res.data.Error)
+        throw "Movie Not Found!"
+      movieProps = res.data;
+      console.log(res);
+      return getLists(localStorage.getItem('userID'))
     }).catch((error) => {
+      alert(error);
       console.log(error);
-    });
+    }).then(lists =>
+      this.setState({displayOn: true, title:"", movieProps: movieProps, lists: lists})
+    );
   }
 
   addMovie(event) {
@@ -60,11 +65,25 @@ class FindMovies extends Component {
     const replaced = str.replace(/ /g, '+');
     return replaced;
   }
+
+  updateRating() {
+    console.log(this.state)
+    const {rating, movieId} = this.state;
+    axios.patch('http://localhost:4000/movies/' + movieId, {
+      movie: {
+        rating: rating
+      }
+    }).then((res) => {
+      alert("Changed!");
+      this.setState({ratingDisplayOn: false, rating: "", movieId: null})
+      this.getMovies()
+    }).catch((error) => {
+      alert(error)
+    })
+  }
+  
   displayMovie() {
     if (this.state.displayOn){
-      const lists = [
-        {id:999, title: "whatever"}
-      ]
       const {Title, Released, Poster} = this.state.movieProps
       return (
         <div className={"movieresults"}>
@@ -74,16 +93,11 @@ class FindMovies extends Component {
           <img src={Poster} />
           <div className={"addtolists"}>
             <p> Add to Lists? </p>
-            <form onSubmit={this.addMovie}>
-              <label> Rating?
-              <input type="text" value={this.state.rating} onChange={this.handleChange('rating')} />
-              </label><br/>
-              <input type="submit" value="Submit" />
-            </form>
+            <Rating updateRating={this.updateRating.bind(this)} />
           </div>
           <div>
           {/*show lists for adding this movie to lists*/}
-            {lists.map(list => ShowList(
+            {this.state.lists.map(list => ShowList(
               Object.assign({}, list, {mode: 'AddMovies' })))
             }
           </div>
