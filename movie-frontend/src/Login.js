@@ -24,7 +24,6 @@ class Login extends Component {
   }
 
   render(){
-    {console.log(this.state.email)}
     const userNotLoggedIn = (
       <div>
         <NavLink className={"Signup-Link"} name={"/signup"} text={"Sign Up"} />

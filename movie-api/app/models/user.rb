@@ -1,5 +1,5 @@
 class User < ApplicationRecord
-  has_many :lists 
+  has_many :lists
   before_save { self.email = email.downcase if email.present? }
 
   EMAIL_REGEX = /\A[\w+\-.]+@[a-z\d\-.]+\.[a-z]+\z/i
@@ -14,4 +14,10 @@ class User < ApplicationRecord
             format: {with: EMAIL_REGEX}
 
   has_secure_password
+
+  # def self.from_token_payload payload
+  #   # Returns a valid user, `nil` or raise
+  #   # e.g.
+  #     self.find payload["sub"]
+  # end
 end

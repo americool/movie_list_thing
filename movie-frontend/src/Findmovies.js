@@ -31,7 +31,8 @@ class FindMovies extends Component {
     });
   }
 
-  addMovie() {
+  addMovie(event) {
+    event.preventDefault()
     const {Title, imdbID} = this.state.movieProps
     axios.post('http://localhost:4000/movies/', {
       movie: {

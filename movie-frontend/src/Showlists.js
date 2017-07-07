@@ -34,7 +34,8 @@ class ShowLists extends Component {
     })
   }
 
-  addList(){
+  addList(event){
+    event.preventDefault()
     const {title, id} = this.state;
     axios.post('http://localhost:4000/lists/', {
       list: {

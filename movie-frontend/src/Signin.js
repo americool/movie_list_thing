@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Redirect } from 'react-router'
-// import { reactLocalStorage } from 'reactjs-localstorage';
 import axios from 'axios';
+
 
 class Signin extends Component {
   constructor(props) {
