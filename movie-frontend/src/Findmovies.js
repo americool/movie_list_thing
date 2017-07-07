@@ -1,5 +1,4 @@
 import React, {Component} from 'react';
-import AddToLists from './Addtolists';
 import axios from 'axios';
 
 const API_KEY = process.env.IMDB_KEY
@@ -11,6 +10,7 @@ class FindMovies extends Component {
       title: "",
       displayOn: false,
       movieProps: null,
+      rating: "",
     }
     this.searchMovies = this.searchMovies.bind(this);
     this.addMovie = this.addMovie.bind(this);
@@ -37,6 +37,7 @@ class FindMovies extends Component {
       movie: {
         title: Title,
         list_id: this.props.id,
+        rating: this.state.rating,
         imdbid: imdbID
       }
     }).then((res) => {
@@ -64,7 +65,12 @@ class FindMovies extends Component {
           <p> {Released} </p>
           <img src={Poster} />
           <p> Add to List? </p>
-          <button onClick={this.addMovie}> YUP </button>
+          <form onSubmit={this.addMovie}>
+            <label> Rating?
+            <input type="text" value={this.state.rating} onChange={this.handleChange('rating')} />
+            </label><br/>
+            <input type="submit" value="Submit" />
+          </form>
         </div>
       )
     }

@@ -23,6 +23,7 @@ ActiveRecord::Schema.define(version: 20170703040241) do
   create_table "movies", force: :cascade do |t|
     t.string "title"
     t.string "imdbid"
+    t.decimal "rating"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "list_id"

@@ -12,11 +12,24 @@ class ListView extends Component {
       id: null,
       movies: [],
       displayOn: false,
+      ratingDisplayOn: false,
       movieProps: null,
       movieId: null,
+      rating: null,
     }
     this.renderMovieDetails = this.renderMovieDetails.bind(this);
+    this.renderChangeRating = this.renderChangeRating.bind(this);
+    this.changeRating = this.changeRating.bind(this);
   }
+
+  handleChange(key) {
+    return function (e) {
+      let state = {};
+      state[key] = e.target.value;
+      this.setState(state);
+    }.bind(this);
+  }
+
 
   componentDidMount(){
     const id = this.props.match.params.id
@@ -30,20 +43,51 @@ class ListView extends Component {
       })
   }
 
+  changeRating() {
+    console.log(this.state)
+    const {rating, movieId} = this.state;
+    axios.patch('http://localhost:4000/movies/' + movieId, {
+      movie: {
+        rating: rating
+      }
+    }).then((res) => {
+      alert("Changed!");
+      this.setState({ratingDisplayOn: false, rating: "", movieId: null})
+      this.getMovies()
+    }).catch((error) => {
+      alert(error)
+    })
+  }
+
   renderMovies = () =>{
     const {movies} = this.state;
      return (
       movies.map((movie) => (
         <div>
-        <button onClick={() => {this.renderMovieDetails(movie.imdbid)}}>
-          {movie.title}</button><br/></div>
+        <p onClick={() => {this.renderMovieDetails(movie.imdbid)}}>
+          {movie.title} -- {movie.rating || "Not Yet Rated"}</p>  
+          <button onClick={() => {this.setState({ratingDisplayOn: true, displayOn: false, movieId: movie.id})}}>Change Rating?</button>
+          </div>
       ))
     )
   }
 
+  renderChangeRating(){
+    if (this.state.ratingDisplayOn){
+      return (
+        <form className={"ratingchange"} onSubmit={this.changeRating}>
+          <label> Rating?
+          <input type="text" value={this.state.rating} onChange={this.handleChange('rating')} />
+          </label><br/>
+          <input type="submit" value="Submit" />
+        </form>
+      )
+    }
+  }
+
   renderMovieDetails(id) {
     axios.get('http://www.omdbapi.com/?apikey=' + API_KEY + '&i=' + id).then((res) => {
-      this.setState({displayOn: true, movieProps: res.data})
+      this.setState({displayOn: true, movieProps: res.data, ratingDisplayOn: false})
       console.log(res);
       if (res.data.Error){
         alert("Movie Not Found!")
@@ -62,7 +106,7 @@ class ListView extends Component {
           <p> {Title} </p>
           <p> {Released} </p>
           <img src={Poster} />
-          <p> {Plot}</p>
+          <p className={"plot"}>{Plot}</p>
           <p> {Rated}</p>
         </div>
       )
@@ -77,6 +121,7 @@ class ListView extends Component {
         {this.renderMovies()}
         <FindMovies id={id} refreshUpdate={this.getMovies(id)}/>
         {this.displayMovie()}
+        {this.renderChangeRating()}
       </div>
     )
   }
