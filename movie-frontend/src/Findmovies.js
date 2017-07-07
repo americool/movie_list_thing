@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+import ShowList from './Showlist'
 import axios from 'axios';
 
 const API_KEY = process.env.IMDB_KEY
@@ -16,7 +17,8 @@ class FindMovies extends Component {
     this.addMovie = this.addMovie.bind(this);
   }
 
-  searchMovies() {
+  searchMovies(event) {
+    event.preventDefault();
     const title = this.convertString(this.state.title)
     axios.get('http://www.omdbapi.com/?apikey=' + API_KEY + '&t=' + title).then((res) => {
       if (res.data.Error){
@@ -60,6 +62,9 @@ class FindMovies extends Component {
   }
   displayMovie() {
     if (this.state.displayOn){
+      const lists = [
+        {id:999, title: "whatever"}
+      ]
       const {Title, Released, Poster} = this.state.movieProps
       return (
         <div className={"movieresults"}>
@@ -75,6 +80,12 @@ class FindMovies extends Component {
               </label><br/>
               <input type="submit" value="Submit" />
             </form>
+          </div>
+          <div>
+          {/*show lists for adding this movie to lists*/}
+            {lists.map(list => ShowList(
+              Object.assign({}, list, {mode: 'AddMovies' })))
+            }
           </div>
         </div>
       )

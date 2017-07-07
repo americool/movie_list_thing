@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import NavLink from './Navlink'
 import axios from 'axios';
+import ShowList from './Showlist';
 import './App.css';
 
 class ShowLists extends Component {
@@ -52,16 +53,11 @@ class ShowLists extends Component {
     });
   }
 
-  renderLists = () =>{
-    const {lists} = this.state;
-     return (
-      lists.map((list) => (
-        <div>
-          <NavLink className={"listlink"} name={"/listview/"+list.id} text={list.title} />
-        </div>
-      ))
-    )
-  }
+  renderLists = () => this.state.lists.map(
+    list => ShowList(
+    Object.assign({}, list, {mode: 'NavLink' }))
+  );
+
 
   render() {
     return (
