@@ -50,7 +50,9 @@ class FindMovies extends Component {
     })
   }
 
+  renderListOptions() {
 
+  }
 
   convertString(str) {
     const replaced = str.replace(/ /g, '+');
