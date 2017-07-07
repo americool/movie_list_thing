@@ -36,7 +36,7 @@ class Login extends Component {
         <p className={"Signup-Link"}> Hello, {this.state.email}! </p>
         <button className={"Signin-Link"} onClick={this.logOut} > Sign Out </button>
         <ShowLists userID={this.state.userID} />
-        <FindMovies />
+        <NavLink className={"moviesearch"} name={"/findmovies"} text={"Find Movies"} />
       </div>
     )
     return(

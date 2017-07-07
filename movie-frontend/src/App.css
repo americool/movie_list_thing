@@ -49,22 +49,22 @@
 
 .addtolists {
   position: fixed;
-  right: 50vw;
-  bottom: 70vh;
+  right: 8vw;
+  bottom: 80vh;
   margin-right: 8vw;
 }
 
 .moviesearch{
   position: fixed;
-  right: .75vw;
-  bottom: 70vh;
+  right: 70vw;
+  bottom: 85vh;
   margin-right: 8vw;
 }
 
 .movieresults{
   position: fixed;
-  right: .75vw;
-  bottom: 0vh;
+  right: 40vw;
+  bottom: 10vh;
 }
 
 .moviedetails{

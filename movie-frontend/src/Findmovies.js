@@ -65,13 +65,15 @@ class FindMovies extends Component {
           <p> {Title} </p>
           <p> {Released} </p>
           <img src={Poster} />
-          <p> Add to List? </p>
-          <form onSubmit={this.addMovie}>
-            <label> Rating?
-            <input type="text" value={this.state.rating} onChange={this.handleChange('rating')} />
-            </label><br/>
-            <input type="submit" value="Submit" />
-          </form>
+          <div className={"addtolists"}>
+            <p> Add to Lists? </p>
+            <form onSubmit={this.addMovie}>
+              <label> Rating?
+              <input type="text" value={this.state.rating} onChange={this.handleChange('rating')} />
+              </label><br/>
+              <input type="submit" value="Submit" />
+            </form>
+          </div>
         </div>
       )
     }

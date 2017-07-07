@@ -130,7 +130,6 @@ class ListView extends Component {
       <div>
         <h2>Movie List Thing!</h2>
         {this.renderMovies()}
-        <FindMovies id={id} refreshUpdate={this.getMovies(id)}/>
         {this.displayMovie()}
         {this.renderChangeRating()}
       </div>
