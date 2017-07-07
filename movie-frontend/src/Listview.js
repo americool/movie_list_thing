@@ -16,6 +16,7 @@ class ListView extends Component {
       movieProps: null,
       movieId: null,
       rating: null,
+      avgRating: null,
     }
     this.renderMovieDetails = this.renderMovieDetails.bind(this);
     this.renderChangeRating = this.renderChangeRating.bind(this);
@@ -59,15 +60,25 @@ class ListView extends Component {
     })
   }
 
+  deleteMovie(id) {
+    axios.delete('http://localhost:4000/movies/' + id).then((res) => {
+      alert("Deleted!");
+      this.getMovies()
+    }).catch((error) => {
+      alert(error)
+    })
+  }
+
   renderMovies = () =>{
     const {movies} = this.state;
+      let ratingTotal = 0;
      return (
       movies.map((movie) => (
         <div>
         <p onClick={() => {this.renderMovieDetails(movie.imdbid)}}>
-          {movie.title} -- {movie.rating || "Not Yet Rated"}</p>  
-          <button onClick={() => {this.setState({ratingDisplayOn: true, displayOn: false, movieId: movie.id})}}>Change Rating?</button>
-          </div>
+          {movie.title} -- {movie.rating || "Not Yet Rated"}</p>
+          <button onClick={() => {this.setState({ratingDisplayOn: true, displayOn: false, movieId: movie.id})}}>Change Rating?</button> <button onClick={() => {this.deleteMovie(movie.id)}}>Delete Movie?</button>
+        </div>
       ))
     )
   }

@@ -23,6 +23,7 @@ class SignUp extends Component {
   }
 
   handleSubmit(event) {
+    event.preventDefault();
     const {email, password, passwordConfirmation} = this.state;
     axios.post('http://localhost:4000/users', {
       user: {

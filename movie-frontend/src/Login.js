@@ -17,13 +17,14 @@ class Login extends Component {
   }
 
   logOut(){
-    this.setState({jwt: null, email: "null", userID: null});
+    this.setState({jwt: null, email: null, userID: null});
     localStorage.setItem('jwt', null);
     localStorage.setItem('email', null);
     localStorage.setItem('userID', null);
   }
 
   render(){
+    {console.log(this.state.email)}
     const userNotLoggedIn = (
       <div>
         <NavLink className={"Signup-Link"} name={"/signup"} text={"Sign Up"} />
@@ -41,7 +42,7 @@ class Login extends Component {
     )
     return(
       <div>
-        { this.state.email !== "null" ? userLoggedIn : userNotLoggedIn }
+        { this.state.email !== null ? userLoggedIn : userNotLoggedIn }
       </div>
     )
   }
