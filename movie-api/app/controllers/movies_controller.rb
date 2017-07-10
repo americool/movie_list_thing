@@ -17,7 +17,6 @@ class MoviesController < ApplicationController
   # POST /movies
   def create
     existingmovie = Movie.where(imdbid: params[:movie][:imdbid]).first
-    puts existingmovie
     if existingmovie.present?
       render json: existingmovie
     else
@@ -30,6 +29,12 @@ class MoviesController < ApplicationController
       end
     end
   end
+
+  def change_lists
+    movie = Movie.where(imdbid: params[:imdbid]).first
+    movie.change_lists(params[:lists])
+    movie.save
+ end
 
   # PATCH/PUT /movies/1
   def update

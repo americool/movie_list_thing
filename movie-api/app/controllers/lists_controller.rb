@@ -52,6 +52,33 @@ class ListsController < ApplicationController
     render json: list.movies
   end
 
+  def adjust_lists
+    @data = params[:data]
+    @movie = Movie.where(imdbid: params[:imdbid])
+    puts "the movie"
+    puts json: @movie
+    @data.each do |key, value|
+      puts key
+      if key != "rating"
+        @list = List.find(key)
+        if value
+          puts "adding"
+          puts json: @list
+          if @list.movies.include?(@movie)
+            @list.movies << movie
+          end
+        else
+          puts "removing"
+          puts json: @list
+          @list.movies.delete(@movie)
+        end
+      else
+        puts "rating"
+        @movie.update(rating: value)
+      end
+    end
+  end
+
   # DELETE /lists/1
   def destroy
     @list.destroy
