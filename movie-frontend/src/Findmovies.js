@@ -1,7 +1,8 @@
 import React, {Component} from 'react';
-import ShowList from './Showlist';
 import {getLists} from './Helpers';
-import Rating from './Rating';
+import AddToManyLists from './Addtomanylists';
+import AddToList from './Addtolist';
+import "react-number-picker/dist/style.css"
 import axios from 'axios';
 
 const API_KEY = process.env.IMDB_KEY
@@ -13,7 +14,7 @@ class FindMovies extends Component {
       title: "",
       displayOn: false,
       movieProps: null,
-      rating: "",
+      rating: null,
       lists: [],
     }
     this.searchMovies = this.searchMovies.bind(this);
@@ -57,8 +58,11 @@ class FindMovies extends Component {
     })
   }
 
-  renderListOptions() {
-
+  renderAddOptions() {
+    if (this.props.addMany) {
+      return <AddToManyLists lists={this.state.lists} />
+    }
+    return <AddToList movieProps={this.state.movieProps} listId={this.props.currentList} />
   }
 
   convertString(str) {
@@ -81,26 +85,17 @@ class FindMovies extends Component {
       alert(error)
     })
   }
-  
+
   displayMovie() {
     if (this.state.displayOn){
       const {Title, Released, Poster} = this.state.movieProps
       return (
-        <div className={"movieresults"}>
+        <div className={this.props.classNameResults}>
           <br/>
           <p> {Title} </p>
           <p> {Released} </p>
           <img src={Poster} />
-          <div className={"addtolists"}>
-            <p> Add to Lists? </p>
-            <Rating updateRating={this.updateRating.bind(this)} />
-          </div>
-          <div>
-          {/*show lists for adding this movie to lists*/}
-            {this.state.lists.map(list => ShowList(
-              Object.assign({}, list, {mode: 'AddMovies' })))
-            }
-          </div>
+          {this.renderAddOptions()}
         </div>
       )
     }
@@ -117,7 +112,7 @@ class FindMovies extends Component {
 
   render(){
     return (
-      <div className={"moviesearch"}>
+      <div className={this.props.classNameForm}>
         <br/><br/><br/>
         <p> Search for a Movie? </p>
         <form onSubmit={this.searchMovies}>

@@ -9,5 +9,6 @@ Rails.application.routes.draw do
   end
 
   match 'users/get_user' => 'users#get_user', :via => :post
+  match 'lists/add_movie_to_list' => 'lists#add_movie_to_list', :via => :post
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
 end

@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import axios from 'axios';
 import FindMovies from './Findmovies';
+import AddToList from './Addtolist';
 import './App.css';
 
 const API_KEY = process.env.IMDB_KEY
@@ -71,7 +72,6 @@ class ListView extends Component {
 
   renderMovies = () =>{
     const {movies} = this.state;
-      let ratingTotal = 0;
      return (
       movies.map((movie) => (
         <div>
@@ -108,21 +108,6 @@ class ListView extends Component {
     });
   }
 
-  displayMovie() {
-    if (this.state.displayOn){
-      const {Title, Released, Poster, Rated, Plot} = this.state.movieProps
-      return (
-        <div className={"moviedetails"}>
-          <br/>
-          <p> {Title} </p>
-          <p> {Released} </p>
-          <img src={Poster} />
-          <p className={"plot"}>{Plot}</p>
-          <p> {Rated}</p>
-        </div>
-      )
-    }
-  }
 
   render(){
     const {id} = this.state;
@@ -130,7 +115,7 @@ class ListView extends Component {
       <div>
         <h2>Movie List Thing!</h2>
         {this.renderMovies()}
-        {this.displayMovie()}
+        <FindMovies classNameForm={"findmoviesonlist"} classNameResults={"listmovieresults"} currentList={id}/>
         {this.renderChangeRating()}
       </div>
     )

@@ -38,6 +38,14 @@ class ListsController < ApplicationController
     end
   end
 
+  def add_movie_to_list
+    list = List.find(params[:list_id])
+    movie = Movie.find(params[:movie_id])
+    list.movies << movie
+
+    render json: list.movies
+  end
+
   # DELETE /lists/1
   def destroy
     @list.destroy
@@ -51,6 +59,6 @@ class ListsController < ApplicationController
 
     # Only allow a trusted parameter "white list" through.
     def list_params
-      params.require(:list).permit(:title, :user_id)
+      params.require(:list).permit(:title, :user_id )
     end
 end
