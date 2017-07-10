@@ -6,27 +6,45 @@ import './App.css';
 
 
 class AddToManyLists extends Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.state = {
       rating: 3,
-      clickedMovies: null,
-
+      stateLists: this.props.lists,
     }
+    this.props.lists.forEach(list => this.state['list-'+list.id] = false);
+    this.handleInputChange = this.handleInputChange.bind(this);
+    this.handleRatingChange = this.handleRatingChange.bind(this);
+    this.whichListsHaveMovie();
   }
 
-  componentDidMount() {
-    this.whichListsHaveMovie()
-
+  handleInputChange(event) {
+    const target = event.target;
+    const value = target.type === 'checkbox' ? target.checked : target.value;
+    const name = target.name;
+    this.setState({ [name]: value });
   }
-  whichListsHaveMovie(){
+
+  handleRatingChange(rating){
+    this.setState({rating: rating})
+  }
+
+  componentWillReceiveProps(nextProps) {
+    this.setState({
+      rating: 3,
+      stateLists: this.props.lists,
+    })
+    this.props.lists.forEach(list => this.setState({ ['list-'+list.id]: false }));
+    this.whichListsHaveMovie(nextProps)
+  }
+
+  whichListsHaveMovie(props){
+    props = props || this.props;
     return axios.post('http://localhost:4000/lists/get_lists_with_movie', {
-        imdbid: this.props.movieProps.imdbID
+        imdbid: props.movieProps.imdbID
       }).then((res) => {
-        let memberlists = {};
-        res.data.forEach(list => memberlists[list.id] = list)
-        this.setState({clickedMovies: memberlists});
-        console.log(this.state.clickedMovies);
+        this.props.lists.forEach(list => this.setState({ ['list-'+list.id]: false }));
+        res.data.forEach(list => this.setState({ ['list-'+list.id]: true  }));
       })
   }
   // call create movie (incase does not exist)
@@ -38,11 +56,18 @@ class AddToManyLists extends Component {
     return(
       <div className={"addtolists"}>
         <p> Add to Lists? </p>
-      <NumericInput value={this.state.rating} min={0} max={5} precision={1} step={0.5} />
+      <NumericInput onChange={this.handleRatingChange} value={this.state.rating} min={0} max={5} precision={1} step={0.5} />
       {/*show lists for adding this movie to lists*/}
-        {this.props.lists.map(list => ShowList(
-          Object.assign({}, list, {mode: 'AddMovies', checked: this.state.clickedMovies && list.id in this.state.clickedMovies })))
-        }
+        {this.state.stateLists.map(list => <div>
+          <input
+            name={'list-'+list.id}
+            type="checkbox"
+            checked={this.state['list-'+list.id]}
+            onChange={this.handleInputChange}
+          />
+          {list.title}
+        </div>
+        )}
         <button> Submit! </button>
       </div>
     )
