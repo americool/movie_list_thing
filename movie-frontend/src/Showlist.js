@@ -16,7 +16,7 @@ export default function(props) {
     case 'AddMovies':
       return(
         <div>
-          <input type="checkbox"/> {props.title}
+          <input type="checkbox" checked={props.checked}/> {props.title}
         </div>
     )
   }

@@ -10,10 +10,24 @@ class AddToManyLists extends Component {
     super();
     this.state = {
       rating: 3,
+      clickedMovies: null,
+
     }
   }
-  whichListsHaveMovie(){
 
+  componentDidMount() {
+    this.whichListsHaveMovie()
+
+  }
+  whichListsHaveMovie(){
+    return axios.post('http://localhost:4000/lists/get_lists_with_movie', {
+        imdbid: this.props.movieProps.imdbID
+      }).then((res) => {
+        let memberlists = {};
+        res.data.forEach(list => memberlists[list.id] = list)
+        this.setState({clickedMovies: memberlists});
+        console.log(this.state.clickedMovies);
+      })
   }
   // call create movie (incase does not exist)
   // which lists have movie associations
@@ -27,7 +41,7 @@ class AddToManyLists extends Component {
       <NumericInput value={this.state.rating} min={0} max={5} precision={1} step={0.5} />
       {/*show lists for adding this movie to lists*/}
         {this.props.lists.map(list => ShowList(
-          Object.assign({}, list, {mode: 'AddMovies' })))
+          Object.assign({}, list, {mode: 'AddMovies', checked: this.state.clickedMovies && list.id in this.state.clickedMovies })))
         }
         <button> Submit! </button>
       </div>
