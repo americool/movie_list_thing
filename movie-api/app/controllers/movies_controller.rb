@@ -34,6 +34,7 @@ class MoviesController < ApplicationController
     movie = Movie.where(imdbid: params[:imdbid]).first
     movie.change_lists(params[:lists])
     movie.save
+    movie.update(rating: params[:rating])
  end
 
   # PATCH/PUT /movies/1

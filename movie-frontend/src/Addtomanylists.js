@@ -48,22 +48,31 @@ class AddToManyLists extends Component {
 
   handleSubmit(event){
     const {Title, imdbID} = this.props.movieProps;
+    let array = []
+    Object.keys(this.state).forEach(key => {
+      if (key !== 'rating' && this.state[key]){
+        array.push(key)
+      }
+    })
     event.preventDefault();
     axios.post('http://localhost:4000/movies', {
       movie: {
         title: Title,
         imdbid: imdbID
       }
-    })
-    axios.post('http://localhost:4000/lists/adjust_lists',{
-      data: this.state,
-      imdbid: imdbID
-    }).then((res) => {
-      console.log(res)
-    }).catch((error) => {
-      console.log(error)
-    })
+    }).then(() => {
+      axios.post('http://localhost:4000/movies/change_lists',{
+        lists: array,
+        imdbid: imdbID,
+        rating: this.state.rating
+        })
+      }).then((res) => {
+        console.log(res)
+      }).catch((error) => {
+        console.log(error)
+      })
   }
+
 
   // call create movie (incase does not exist)
   // which lists have movie associations
