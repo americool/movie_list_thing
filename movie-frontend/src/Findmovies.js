@@ -41,7 +41,8 @@ class FindMovies extends Component {
 
   renderAddOptions() {
     if (this.props.addOne) {
-      return <AddToList movieProps={this.state.movieProps} listId={this.props.currentList} />
+      return <AddToList movieProps={this.state.movieProps} listId={this.props.currentList}
+      onMovieAdded={this.props.onListUpdated} />
     }
     return <AddToManyLists lists={this.state.lists} />
   }
