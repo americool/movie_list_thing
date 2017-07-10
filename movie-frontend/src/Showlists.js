@@ -47,7 +47,7 @@ class ShowLists extends Component {
       console.log(res);
       this.getLists(id);
     }).catch((error) => {
-      alert('Comment Failed!');
+      alert('List Failed to Add!');
       console.log(error);
     });
   }

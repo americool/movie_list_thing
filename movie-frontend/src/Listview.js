@@ -1,7 +1,6 @@
 import React, {Component} from 'react';
 import axios from 'axios';
 import FindMovies from './Findmovies';
-import AddToList from './Addtolist';
 import './App.css';
 
 const API_KEY = process.env.IMDB_KEY

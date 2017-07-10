@@ -18,7 +18,6 @@ class FindMovies extends Component {
       lists: [],
     }
     this.searchMovies = this.searchMovies.bind(this);
-    this.addMovie = this.addMovie.bind(this);
   }
 
   searchMovies(event) {
@@ -39,30 +38,12 @@ class FindMovies extends Component {
     );
   }
 
-  addMovie(event) {
-    event.preventDefault()
-    const {Title, imdbID} = this.state.movieProps
-    axios.post('http://localhost:4000/movies/', {
-      movie: {
-        title: Title,
-        list_id: this.props.id,
-        rating: this.state.rating,
-        imdbid: imdbID
-      }
-    }).then((res) => {
-      alert("Added!");
-      this.setState({displayOn: false, title:"", movieProps: null})
-      this.props.refreshUpdate
-    }).catch((error) => {
-      alert(error)
-    })
-  }
 
   renderAddOptions() {
     if (this.props.addOne) {
       return <AddToList movieProps={this.state.movieProps} listId={this.props.currentList} />
     }
-    return <AddToManyLists lists={this.state.lists} />  
+    return <AddToManyLists lists={this.state.lists} />
   }
 
   convertString(str) {

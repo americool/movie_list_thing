@@ -42,7 +42,8 @@ class AddToList extends Component {
     }).then((res) => {
       alert("Added!");
       this.setState({displayOn: false, title:"", movieProps: null})
-      // this.props.refreshUpdate
+      if (this.props.onAddedToList)
+        this.props.onAddedToList();
     }).catch((error) => {
       alert(error)
     })
