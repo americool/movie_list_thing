@@ -16,7 +16,7 @@ class MoviesController < ApplicationController
 
   # POST /movies
   def create
-    existingmovie = Movie.where(imdbid: params[:imdbid])
+    existingmovie = Movie.where(imdbid: params[:movie][:imdbid]).first
 
     if existingmovie.present?
       render json: existingmovie
