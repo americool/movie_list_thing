@@ -30,12 +30,12 @@ class FindMovies extends Component {
       movieProps = res.data;
       console.log(res);
       return getLists(localStorage.getItem('userID'))
-    }).catch((error) => {
-      alert(error);
-      console.log(error);
     }).then(lists =>
       this.setState({displayOn: true, title:"", movieProps: movieProps, lists: lists})
-    );
+    ).catch((error) => {
+      alert(error);
+      console.log(error);
+    });
   }
 
 
@@ -44,7 +44,7 @@ class FindMovies extends Component {
       return <AddToList movieProps={this.state.movieProps} listId={this.props.currentList}
       onMovieAdded={this.props.onListUpdated} />
     }
-    return <AddToManyLists lists={this.state.lists} />
+    return <AddToManyLists movieProps={this.state.movieProps} lists={this.state.lists} />
   }
 
   convertString(str) {

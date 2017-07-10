@@ -12,7 +12,14 @@ class AddToManyLists extends Component {
       rating: 3,
     }
   }
+  whichListsHaveMovie(){
 
+  }
+  // call create movie (incase does not exist)
+  // which lists have movie associations
+  // appropraitely populate checkboxes based on associations
+  // count which checkboxes are clicked vs not clicked and make to api patch calls to add and remove associations
+  //update rating
   render(){
     return(
       <div className={"addtolists"}>
@@ -22,6 +29,7 @@ class AddToManyLists extends Component {
         {this.props.lists.map(list => ShowList(
           Object.assign({}, list, {mode: 'AddMovies' })))
         }
+        <button> Submit! </button>
       </div>
     )
   }

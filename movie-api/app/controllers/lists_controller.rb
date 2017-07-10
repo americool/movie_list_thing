@@ -18,6 +18,10 @@ class ListsController < ApplicationController
     render json: @list.movies
   end
 
+  def get_lists_with_movie
+    render json: List.joins(:movies).where(movies: {imdbid: params[:imdbid]})
+  end
+
   # POST /lists
   def create
     @list = List.new(list_params)
@@ -39,10 +43,12 @@ class ListsController < ApplicationController
   end
 
   def add_movie_to_list
+    duplicates = List.joins(:movies).where(movies: {id: params[:movie_id]}).where(lists: {id: params[:list_id]})
     list = List.find(params[:list_id])
-    movie = Movie.find(params[:movie_id])
-    list.movies << movie
-
+    if !duplicates.present?
+      movie = Movie.find(params[:movie_id])
+      list.movies << movie
+    end
     render json: list.movies
   end
 
