@@ -115,7 +115,7 @@ class ListView extends Component {
       <div>
         <h2>Movie List Thing!</h2>
         {this.renderMovies()}
-        <FindMovies classNameForm={"findmoviesonlist"} classNameResults={"listmovieresults"} currentList={id}/>
+        <FindMovies classNameForm={"findmoviesonlist"} classNameResults={"listmovieresults"} addOne={true} currentList={id}/>
         {this.renderChangeRating()}
       </div>
     )
