@@ -36,6 +36,11 @@ class UsersController < ApplicationController
 
   def show_lists
     @user = User.find(params[:user_id])
+    render json: @user.lists
+  end
+
+  def show_lists_details
+    @user = User.find(params[:user_id])
     @lists = @user.lists
     array = []
     @lists.each do |list|

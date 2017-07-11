@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import NavLink from './Navlink'
 import axios from 'axios';
-import { getLists, getListDetails } from './Helpers';
+import { getListDetails } from './Helpers';
 import './App.css';
 
 class ShowLists extends Component {
@@ -31,7 +31,7 @@ class ShowLists extends Component {
   }
 
   getLists(id){
-    getLists(id).then(lists => this.setState({lists}))
+    getListDetails(id).then(lists => this.setState({lists}))
     // getListDetails(id).then(listDetails => this.setState({listDetails}))
   }
 

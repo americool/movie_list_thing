@@ -5,6 +5,7 @@ Rails.application.routes.draw do
   end
   post 'user_token' => 'user_token#create'
   resources :users do
+    get :show_lists_details
     get :show_lists
   end
 
