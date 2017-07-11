@@ -171,9 +171,9 @@ class ListView extends Component {
   }
 
   toggleDisplay(){
-    this.setState({displayOn: !this.state.displayOn, childDisplay: !this.state.childDisplay})
-    console.log("HELLO")
+    this.setState({displayOn: false, childDisplay: true})
   }
+
   filterButtons(){
     return(
       <div className="filterbuttons">
