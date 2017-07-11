@@ -39,6 +39,22 @@ class UsersController < ApplicationController
     render json: @user.lists
   end
 
+  def show_lists_details
+    @user = User.find(params[:user_id])
+    @lists = @user.lists
+    array = []
+    @lists.each do |list|
+      if list.movies.count == 0
+        avg = "N/A"
+      else
+        avg = list.movies.average(:rating).round(2)
+      end
+      array << [list, list.movies.count, avg ]
+    end
+    render json: array
+  end
+
+
   # PATCH/PUT /users/1
   def update
     if @user.update(user_params)

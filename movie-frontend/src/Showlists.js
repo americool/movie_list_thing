@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import NavLink from './Navlink'
 import axios from 'axios';
-import ShowList from './Showlist';
+import { getListDetails } from './Helpers';
 import './App.css';
 
 class ShowLists extends Component {
@@ -12,6 +12,7 @@ class ShowLists extends Component {
       lists: [],
       title: "",
     }
+    this.deleteList = this.deleteList.bind(this)
     this.addList = this.addList.bind(this);
   }
 
@@ -30,9 +31,8 @@ class ShowLists extends Component {
   }
 
   getLists(id){
-    axios.get('http://localhost:4000/users/' + id + '/show_lists').then((res) => {
-      this.setState({lists: res.data.reverse()})
-    })
+    getListDetails(id).then(lists => this.setState({lists}))
+    // getListDetails(id).then(listDetails => this.setState({listDetails}))
   }
 
   addList(event){
@@ -48,15 +48,27 @@ class ShowLists extends Component {
       console.log(res);
       this.getLists(id);
     }).catch((error) => {
-      alert('Comment Failed!');
+      alert('List Failed to Add!');
       console.log(error);
     });
   }
 
   renderLists = () => this.state.lists.map(
-    list => ShowList(
-    Object.assign({}, list, {mode: 'NavLink' }))
+    list => <div>
+      <NavLink className={"listlink"}
+      name={"/listview/"+list[0].id}
+      text={list[0].title} params={{ testvalue: "hello" }}/>
+      <p> Total Movies: {list[1]} || Average Rating: {list[2]} </p>
+      <button onClick={() => {this.deleteList(list[0].id)}}> Delete? </button>
+    </div>
   );
+
+  deleteList(list_id) {
+    axios.delete('http://localhost:4000/lists/' + list_id).then((res) => {
+        console.log(res);
+        this.getLists(this.state.id)
+    })
+  }
 
 
   render() {

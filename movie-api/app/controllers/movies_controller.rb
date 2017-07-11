@@ -13,16 +13,36 @@ class MoviesController < ApplicationController
     render json: @movie
   end
 
-  # POST /movies
-  def create
-    @movie = Movie.new(movie_params)
-
-    if @movie.save
-      render json: @movie, status: :created, location: @movie
-    else
-      render json: @movie.errors, status: :unprocessable_entity
+  def get_rating
+    @movie = Movie.where(imdbid: params[:movie][:imdbid]).first
+    if @movie.present?
+      render json: @movie.rating
     end
   end
+
+
+  # POST /movies
+  def create
+    existingmovie = Movie.where(imdbid: params[:movie][:imdbid]).first
+    if existingmovie.present?
+      render json: existingmovie
+    else
+      @movie = Movie.new(movie_params)
+
+      if @movie.save
+        render json: @movie, status: :created, location: @movie
+      else
+        render json: @movie.errors, status: :unprocessable_entity
+      end
+    end
+  end
+
+  def change_lists
+    movie = Movie.where(imdbid: params[:imdbid]).first
+    movie.change_lists(params[:lists])
+    movie.save
+    movie.update(rating: params[:rating])
+ end
 
   # PATCH/PUT /movies/1
   def update

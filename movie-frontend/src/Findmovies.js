@@ -1,6 +1,10 @@
 import React, {Component} from 'react';
-import ShowList from './Showlist'
+import {getLists} from './Helpers';
+import AddToManyLists from './Addtomanylists';
+import AddToList from './Addtolist';
+import "react-number-picker/dist/style.css"
 import axios from 'axios';
+
 
 const API_KEY = process.env.IMDB_KEY
 
@@ -11,82 +15,94 @@ class FindMovies extends Component {
       title: "",
       displayOn: false,
       movieProps: null,
-      rating: "",
+      rating: null,
+      lists: [],
     }
     this.searchMovies = this.searchMovies.bind(this);
-    this.addMovie = this.addMovie.bind(this);
   }
 
   searchMovies(event) {
     event.preventDefault();
     const title = this.convertString(this.state.title)
+    let movieProps;
     axios.get('http://www.omdbapi.com/?apikey=' + API_KEY + '&t=' + title).then((res) => {
-      if (res.data.Error){
-        alert("Movie Not Found!")
-      }
-      else{
-        this.setState({displayOn: true, title:"", movieProps: res.data})
-        console.log(res);
-      }
+      if (res.data.Error)
+        throw "Movie Not Found!"
+      movieProps = res.data;
+      console.log(res);
+      this.setState({rating:null})
+      this.getRating(movieProps.imdbID)
+      this.setState({displayOn: false})
+      return getLists(localStorage.getItem('userID'))
+    }).then((lists) => {
+      this.setState({displayOn: true, title:"", movieProps: movieProps, lists: lists})
+      if(this.props.onSearch)
+        this.props.onSearch()
     }).catch((error) => {
+      alert(error);
       console.log(error);
     });
   }
 
-  addMovie(event) {
-    event.preventDefault()
-    const {Title, imdbID} = this.state.movieProps
-    axios.post('http://localhost:4000/movies/', {
+  getRating(imdbID) {
+    axios.post('http://localhost:4000/movies/get_rating', {
       movie: {
-        title: Title,
-        list_id: this.props.id,
-        rating: this.state.rating,
         imdbid: imdbID
       }
+    }).then((res)=> {
+      console.log(res)
+      const rating = res.data || "-"
+      console.log(rating)
+      this.setState({rating:rating})
+    })
+  }
+  renderAddOptions() {
+    if (this.state.rating){
+      if (this.props.addOne) {
+        return <AddToList movieProps={this.state.movieProps} listId={this.props.currentList}
+        onMovieAdded={this.props.onListUpdated}
+        rating={this.state.rating}
+        ratingStyle={'ratingaddtoone'} />
+      }
+      return <AddToManyLists movieProps={this.state.movieProps} lists={this.state.lists} rating={this.state.rating} displayOff={this.toggleOffDisplay.bind(this)}/>
+    }
+  }
+
+  toggleOffDisplay(){
+    this.setState({displayOn: false})
+  }
+  convertString(str) {
+    const replaced = str.replace(/ /g, '+');
+    return replaced;
+  }
+
+  updateRating() {
+    console.log(this.state)
+    const {rating, movieId} = this.state;
+    axios.patch('http://localhost:4000/movies/' + movieId, {
+      movie: {
+        rating: rating
+      }
     }).then((res) => {
-      alert("Added!");
-      this.setState({displayOn: false, title:"", movieProps: null})
-      this.props.refreshUpdate
+      alert("Changed!");
+      this.setState({ratingDisplayOn: false, rating: "", movieId: null})
+      this.getMovies()
     }).catch((error) => {
       alert(error)
     })
   }
 
-  renderListOptions() {
-
-  }
-
-  convertString(str) {
-    const replaced = str.replace(/ /g, '+');
-    return replaced;
-  }
   displayMovie() {
-    if (this.state.displayOn){
-      const lists = [
-        {id:999, title: "whatever"}
-      ]
-      const {Title, Released, Poster} = this.state.movieProps
+    if ((this.state.displayOn && this.props.childDisplay) ||
+    (this.state.displayOn && this.props.childDisplay === undefined)){
+      const {Title, Released, Poster, imdbID} = this.state.movieProps
       return (
-        <div className={"movieresults"}>
+        <div className={this.props.classNameResults || 'movieresults' }>
           <br/>
           <p> {Title} </p>
           <p> {Released} </p>
           <img src={Poster} />
-          <div className={"addtolists"}>
-            <p> Add to Lists? </p>
-            <form onSubmit={this.addMovie}>
-              <label> Rating?
-              <input type="text" value={this.state.rating} onChange={this.handleChange('rating')} />
-              </label><br/>
-              <input type="submit" value="Submit" />
-            </form>
-          </div>
-          <div>
-          {/*show lists for adding this movie to lists*/}
-            {lists.map(list => ShowList(
-              Object.assign({}, list, {mode: 'AddMovies' })))
-            }
-          </div>
+          {this.renderAddOptions()}
         </div>
       )
     }
@@ -103,7 +119,7 @@ class FindMovies extends Component {
 
   render(){
     return (
-      <div className={"moviesearch"}>
+      <div className={this.props.classNameForm}>
         <br/><br/><br/>
         <p> Search for a Movie? </p>
         <form onSubmit={this.searchMovies}>
