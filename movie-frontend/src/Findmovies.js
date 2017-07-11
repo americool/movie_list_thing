@@ -35,7 +35,8 @@ class FindMovies extends Component {
       return getLists(localStorage.getItem('userID'))
     }).then((lists) => {
       this.setState({displayOn: true, title:"", movieProps: movieProps, lists: lists})
-      this.props.onSearch()
+      if(this.props.onSearch)
+        this.props.onSearch()
     }).catch((error) => {
       alert(error);
       console.log(error);
@@ -87,7 +88,8 @@ class FindMovies extends Component {
   }
 
   displayMovie() {
-    if (this.state.displayOn && this.props.childDisplay){
+    if ((this.state.displayOn && this.props.childDisplay) ||
+    (this.state.displayOn && this.props.childDisplay === undefined)){
       const {Title, Released, Poster, imdbID} = this.state.movieProps
       return (
         <div className={this.props.classNameResults}>

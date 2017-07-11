@@ -49,8 +49,7 @@ class ListView extends Component {
         console.log(movie.rating)
         total += parseFloat(movie.rating)
       })
-      console.log(total)
-      const avg = total/this.state.movies.length
+      const avg = (total/this.state.movies.length).toFixed(2)
       this.setState({avgRating: avg})
     }
   }
