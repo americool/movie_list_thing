@@ -1,6 +1,5 @@
 import React, {Component} from 'react';
 import axios from 'axios';
-import ShowList from './Showlist';
 import NumericInput from 'react-numeric-input';
 import './App.css';
 
@@ -12,7 +11,15 @@ class AddToList extends Component {
       movieId: null,
       rating: 3,
     }
-    this.addMovie = this.addMovie.bind(this)
+    this.addMovie = this.addMovie.bind(this);
+    this.handleRatingChange = this.handleRatingChange.bind(this);
+  }
+
+  componentDidMount() {
+    this.setState({rating:this.props.rating})
+  }
+  handleRatingChange(rating){
+    this.setState({rating: rating})
   }
 
   addMovie(event) {
@@ -38,12 +45,15 @@ class AddToList extends Component {
     console.log(this.props.listId, this.state.movieId)
     axios.post('http://localhost:4000/lists/add_movie_to_list', {
       list_id: this.props.listId,
-      movie_id: this.state.movieId
+      movie_id: this.state.movieId,
+      rating: this.state.rating
     }).then((res) => {
       alert("Added!");
       this.setState({displayOn: false, title:"", movieProps: null})
-      if (this.props.onMovieAdded)
+      if (this.props.onMovieAdded){
         this.props.onMovieAdded();
+      }
+
     }).catch((error) => {
       alert(error)
     })
@@ -52,9 +62,10 @@ class AddToList extends Component {
 
   render(){
     return(
-      <div className={"addtolists"}>
-        <p> Add to List? </p>
-      <NumericInput  value={this.state.rating} min={0} max={5} precision={1} step={0.5} />
+      <div className={this.props.ratingStyle}>
+        <p> Enter Rating: </p>
+      <NumericInput onChange={this.handleRatingChange} value={this.state.rating} min={1} max={5} precision={1} step={0.5} />
+      <p> Add to List? </p>
       <button onClick={this.addMovie}> Add! </button>
       </div>
     )

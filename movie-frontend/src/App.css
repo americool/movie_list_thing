@@ -43,7 +43,7 @@
 .addlist {
   position: fixed;
   right: 40vw;
-  bottom: 73vh;
+  bottom: 70vh;
   margin-right: 8vw;
 }
 
@@ -57,7 +57,7 @@
 .moviesearch{
   position: fixed;
   right: 10vw;
-  bottom: 77vh;
+  bottom: 75vh;
   margin-right: 8vw;
 }
 
@@ -83,17 +83,29 @@
 
 .findmoviesonlist{
   position: fixed;
-  right: 40vw;
-  bottom: 90vh;
+  right: 20vw;
+  bottom: 85vh;
   margin-right: 8vw;
 }
 
 .listmovieresults{
   position: fixed;
   right: 40vw;
-  bottom: 30vh;
+  bottom: 10vh;
 }
 
+.ratingaddtoone{
+  position: fixed;
+  right: 5vw;
+  bottom: 30vh;
+
+}
+
+.filterbuttons{
+  position: absolute;
+  right: 45vw;
+  bottom: 90vh;
+}
 .plot{
   position: absolute;
   padding: 2vh;

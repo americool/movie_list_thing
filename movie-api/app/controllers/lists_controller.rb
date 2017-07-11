@@ -45,10 +45,11 @@ class ListsController < ApplicationController
   def add_movie_to_list
     duplicates = List.joins(:movies).where(movies: {id: params[:movie_id]}).where(lists: {id: params[:list_id]})
     list = List.find(params[:list_id])
+    movie = Movie.find(params[:movie_id])
     if !duplicates.present?
-      movie = Movie.find(params[:movie_id])
       list.movies << movie
     end
+      movie.update(rating: params[:rating])
     render json: list.movies
   end
 
@@ -78,7 +79,12 @@ class ListsController < ApplicationController
   #     end
   #   end
   # end
+  def delete_movie
+    @movie = Movie.find(params[:movie_id])
+    @list = List.find(params[:list_id])
 
+    @list.movies.delete(@movie)
+  end
   # DELETE /lists/1
   def destroy
     @list.destroy

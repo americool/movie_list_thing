@@ -11,3 +11,7 @@ export function handleChange(key) {
 export function getLists(id){
   return axios.get('http://localhost:4000/users/' + id + '/show_lists').then(res => res.data.reverse())
 }
+
+// export function getListDetails(id){
+//   return axios.get('http://localhost:4000/users/' + id + '/show_list_details').then(res => res.data.reverse())
+// }

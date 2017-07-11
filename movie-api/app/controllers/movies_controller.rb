@@ -13,6 +13,13 @@ class MoviesController < ApplicationController
     render json: @movie
   end
 
+  def get_rating
+    @movie = Movie.where(imdbid: params[:movie][:imdbid]).first
+    if @movie.present?
+      render json: @movie.rating
+    end
+  end
+
 
   # POST /movies
   def create

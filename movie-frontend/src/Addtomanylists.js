@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import axios from 'axios';
 import NumericInput from 'react-numeric-input';
+import {getRating} from './Helpers';
 import './App.css';
 
 
@@ -8,7 +9,7 @@ class AddToManyLists extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      rating: 3,
+      rating: this.props.rating,
     }
     this.props.lists.forEach(list => this.state[list.id] = false);
     this.handleInputChange = this.handleInputChange.bind(this);
@@ -58,9 +59,11 @@ class AddToManyLists extends Component {
     axios.post('http://localhost:4000/movies', {
       movie: {
         title: Title,
+        rating: this.state.rating,
         imdbid: imdbID
       }
     }).then(() => {
+      console.log(this.state.rating)
       axios.post('http://localhost:4000/movies/change_lists',{
         lists: array,
         imdbid: imdbID,
@@ -80,10 +83,9 @@ class AddToManyLists extends Component {
   // count which checkboxes are clicked vs not clicked and make to api patch calls to add and remove associations
   //update rating
   render(){
-    console.log(this.state)
     return(
       <div className={"addtolists"}>
-        <p> Add to Lists? </p>
+        <p> Rating </p>
       <NumericInput onChange={this.handleRatingChange} value={this.state.rating} min={0} max={5} precision={1} step={0.5} />
       {/*show lists for adding this movie to lists*/}
         {this.props.lists.map(list => <div>
@@ -96,6 +98,7 @@ class AddToManyLists extends Component {
           {list.title}
         </div>
         )}
+        <p> Add to Lists? </p>
         <button onClick={this.handleSubmit}> Submit! </button>
       </div>
     )

@@ -1,8 +1,7 @@
 import React, {Component} from 'react';
 import NavLink from './Navlink'
 import axios from 'axios';
-import ShowList from './Showlist';
-import { getLists } from './Helpers';
+import { getLists, getListDetails } from './Helpers';
 import './App.css';
 
 class ShowLists extends Component {
@@ -13,6 +12,7 @@ class ShowLists extends Component {
       lists: [],
       title: "",
     }
+    this.deleteList = this.deleteList.bind(this)
     this.addList = this.addList.bind(this);
   }
 
@@ -32,6 +32,7 @@ class ShowLists extends Component {
 
   getLists(id){
     getLists(id).then(lists => this.setState({lists}))
+    // getListDetails(id).then(listDetails => this.setState({listDetails}))
   }
 
   addList(event){
@@ -53,9 +54,21 @@ class ShowLists extends Component {
   }
 
   renderLists = () => this.state.lists.map(
-    list => ShowList(
-    Object.assign({}, list, {mode: 'NavLink' }))
+    list => <div>
+      <NavLink className={"listlink"}
+      name={"/listview/"+list[0].id}
+      text={list[0].title} />
+      <p> Total Movies: {list[1]} || Average Rating: {list[2]} </p>
+      <button onClick={() => {this.deleteList(list[0].id)}}> Delete? </button>
+    </div>
   );
+
+  deleteList(list_id) {
+    axios.delete('http://localhost:4000/lists/' + list_id).then((res) => {
+        console.log(res);
+        this.getLists(this.state.id)
+    })
+  }
 
 
   render() {

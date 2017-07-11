@@ -5,6 +5,7 @@ import AddToList from './Addtolist';
 import "react-number-picker/dist/style.css"
 import axios from 'axios';
 
+
 const API_KEY = process.env.IMDB_KEY
 
 class FindMovies extends Component {
@@ -29,22 +30,39 @@ class FindMovies extends Component {
         throw "Movie Not Found!"
       movieProps = res.data;
       console.log(res);
+      this.getRating(movieProps.imdbID)
+      this.setState({displayOn: false})
       return getLists(localStorage.getItem('userID'))
-    }).then(lists =>
+    }).then((lists) => {
       this.setState({displayOn: true, title:"", movieProps: movieProps, lists: lists})
-    ).catch((error) => {
+      this.props.onSearch()
+    }).catch((error) => {
       alert(error);
       console.log(error);
     });
   }
 
-
+  getRating(imdbID) {
+    axios.post('http://localhost:4000/movies/get_rating', {
+      movie: {
+        imdbid: imdbID
+      }
+    }).then((res)=> {
+      console.log(res)
+      const rating = res.data || 3
+      console.log(rating)
+      this.setState({rating:rating})
+    })
+  }
   renderAddOptions() {
+    console.log(this.state.rating)
     if (this.props.addOne) {
       return <AddToList movieProps={this.state.movieProps} listId={this.props.currentList}
-      onMovieAdded={this.props.onListUpdated} />
+      onMovieAdded={this.props.onListUpdated}
+      rating={this.state.rating}
+      ratingStyle={'ratingaddtoone'} />
     }
-    return <AddToManyLists movieProps={this.state.movieProps} lists={this.state.lists} />
+    return <AddToManyLists movieProps={this.state.movieProps} lists={this.state.lists} rating={this.state.rating} />
   }
 
   convertString(str) {
@@ -69,8 +87,8 @@ class FindMovies extends Component {
   }
 
   displayMovie() {
-    if (this.state.displayOn){
-      const {Title, Released, Poster} = this.state.movieProps
+    if (this.state.displayOn && this.props.childDisplay){
+      const {Title, Released, Poster, imdbID} = this.state.movieProps
       return (
         <div className={this.props.classNameResults}>
           <br/>
