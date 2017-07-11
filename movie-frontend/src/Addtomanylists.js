@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import axios from 'axios';
 import NumericInput from 'react-numeric-input';
-import {getRating} from './Helpers';
+import { Redirect } from 'react-router'
 import './App.css';
 
 
@@ -10,12 +10,17 @@ class AddToManyLists extends Component {
     super(props);
     this.state = {
       rating: this.props.rating,
+      redirect: false
     }
     this.props.lists.forEach(list => this.state[list.id] = false);
     this.handleInputChange = this.handleInputChange.bind(this);
     this.handleRatingChange = this.handleRatingChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.whichListsHaveMovie();
+  }
+
+  componentDidMount() {
+    this.setState({rating:this.props.rating})
   }
 
   handleInputChange(event) {
@@ -71,12 +76,19 @@ class AddToManyLists extends Component {
         })
       }).then((res) => {
         console.log(res)
+        alert("Done!")
+        if (this.props.displayOff)
+          this.props.displayOff()
+        this.setState({redirect: true})
       }).catch((error) => {
         console.log(error)
       })
   }
 
   render(){
+    if (this.state.redirect){
+      return <Redirect to='/findmovies'/>;
+    }
     return(
       <div className={"addtolists"}>
         <p> Rating </p>

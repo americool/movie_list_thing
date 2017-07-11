@@ -63,9 +63,12 @@ class FindMovies extends Component {
       rating={this.state.rating}
       ratingStyle={'ratingaddtoone'} />
     }
-    return <AddToManyLists movieProps={this.state.movieProps} lists={this.state.lists} rating={this.state.rating} />
+    return <AddToManyLists movieProps={this.state.movieProps} lists={this.state.lists} rating={this.state.rating} displayOff={this.toggleOffDisplay.bind(this)}/>
   }
 
+  toggleOffDisplay(){
+    this.setState({displayOn: false})
+  }
   convertString(str) {
     const replaced = str.replace(/ /g, '+');
     return replaced;
