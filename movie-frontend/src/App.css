@@ -73,7 +73,7 @@
   position: fixed;
   right: 45vw;
   text-align: center;
-  bottom: 10vh;
+  bottom: 11vh;
 }
 
 .ratingchange{
@@ -114,7 +114,8 @@
 }
 .plot{
   position: absolute;
-  padding: 2vh;
+  padding: 3.5vh;
+  font-size: 1vw;
 }
 @keyframes App-logo-spin {
   from { transform: rotate(0deg); }
