@@ -1,9 +1,11 @@
 
 .App-logo {
   animation: App-logo-spin infinite 20s linear;
-  height: 80px;
+  height: 10vh;
 }
-
+.title {
+  text-align: center;
+}
 .App-header {
   background-color: #222;
   height: 17vh;
@@ -43,14 +45,14 @@
 .addlist {
   position: fixed;
   right: 40vw;
-  bottom: 70vh;
+  top: 20vh;
   margin-right: 8vw;
 }
 
 .addtolists {
   position: fixed;
   right: 8vw;
-  bottom: 70vh;
+  top: 20vh;
   margin-right: 8vw;
 }
 
@@ -68,10 +70,10 @@
 }
 
 .moviedetails{
-  position: absolute;
-  right: 40vw;
+  position: fixed;
+  right: 45vw;
   text-align: center;
-  bottom: 30vh;
+  bottom: 10vh;
 }
 
 .ratingchange{
@@ -100,11 +102,15 @@
   bottom: 30vh;
 
 }
-
+.movielist{
+  position: fixed;
+  top: 10vh;
+  margin: 1vw;
+}
 .filterbuttons{
-  position: absolute;
-  right: 45vw;
-  bottom: 90vh;
+  position: fixed;
+  left: 1vw;
+  top: 8vh;
 }
 .plot{
   position: absolute;

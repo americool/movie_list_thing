@@ -57,7 +57,7 @@ class ShowLists extends Component {
     list => <div>
       <NavLink className={"listlink"}
       name={"/listview/"+list[0].id}
-      text={list[0].title} />
+      text={list[0].title} params={{ testvalue: "hello" }}/>
       <p> Total Movies: {list[1]} || Average Rating: {list[2]} </p>
       <button onClick={() => {this.deleteList(list[0].id)}}> Delete? </button>
     </div>

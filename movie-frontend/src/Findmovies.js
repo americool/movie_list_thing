@@ -30,6 +30,7 @@ class FindMovies extends Component {
         throw "Movie Not Found!"
       movieProps = res.data;
       console.log(res);
+      this.setState({rating:null})
       this.getRating(movieProps.imdbID)
       this.setState({displayOn: false})
       return getLists(localStorage.getItem('userID'))
@@ -50,20 +51,21 @@ class FindMovies extends Component {
       }
     }).then((res)=> {
       console.log(res)
-      const rating = res.data || 3
+      const rating = res.data || "-"
       console.log(rating)
       this.setState({rating:rating})
     })
   }
   renderAddOptions() {
-    console.log(this.state.rating)
-    if (this.props.addOne) {
-      return <AddToList movieProps={this.state.movieProps} listId={this.props.currentList}
-      onMovieAdded={this.props.onListUpdated}
-      rating={this.state.rating}
-      ratingStyle={'ratingaddtoone'} />
+    if (this.state.rating){
+      if (this.props.addOne) {
+        return <AddToList movieProps={this.state.movieProps} listId={this.props.currentList}
+        onMovieAdded={this.props.onListUpdated}
+        rating={this.state.rating}
+        ratingStyle={'ratingaddtoone'} />
+      }
+      return <AddToManyLists movieProps={this.state.movieProps} lists={this.state.lists} rating={this.state.rating} displayOff={this.toggleOffDisplay.bind(this)}/>
     }
-    return <AddToManyLists movieProps={this.state.movieProps} lists={this.state.lists} rating={this.state.rating} displayOff={this.toggleOffDisplay.bind(this)}/>
   }
 
   toggleOffDisplay(){
@@ -95,7 +97,7 @@ class FindMovies extends Component {
     (this.state.displayOn && this.props.childDisplay === undefined)){
       const {Title, Released, Poster, imdbID} = this.state.movieProps
       return (
-        <div className={this.props.classNameResults}>
+        <div className={this.props.classNameResults || 'movieresults' }>
           <br/>
           <p> {Title} </p>
           <p> {Released} </p>

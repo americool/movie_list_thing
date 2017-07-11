@@ -9,7 +9,7 @@ class AddToList extends Component {
     super();
     this.state = {
       movieId: null,
-      rating: 3,
+      rating: null,
     }
     this.addMovie = this.addMovie.bind(this);
     this.handleRatingChange = this.handleRatingChange.bind(this);
@@ -17,6 +17,7 @@ class AddToList extends Component {
 
   componentDidMount() {
     this.setState({rating:this.props.rating})
+    console.log(this.state.rating)
   }
   handleRatingChange(rating){
     this.setState({rating: rating})

@@ -9,7 +9,7 @@ class AddToManyLists extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      rating: this.props.rating,
+      rating: null,
       redirect: false
     }
     this.props.lists.forEach(list => this.state[list.id] = false);
@@ -93,6 +93,7 @@ class AddToManyLists extends Component {
       <div className={"addtolists"}>
         <p> Rating </p>
       <NumericInput onChange={this.handleRatingChange} value={this.state.rating} min={0} max={5} precision={1} step={0.5} />
+      <p> Add to Lists? </p>
       {/*show lists for adding this movie to lists*/}
         {this.props.lists.map(list => <div>
           <input
@@ -104,7 +105,7 @@ class AddToManyLists extends Component {
           {list.title}
         </div>
         )}
-        <p> Add to Lists? </p>
+
         <button onClick={this.handleSubmit}> Submit! </button>
       </div>
     )

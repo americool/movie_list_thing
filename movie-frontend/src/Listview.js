@@ -19,7 +19,8 @@ class ListView extends Component {
       rating: null,
       avgRating: null,
       childDisplay: true,
-      movieTitle: ""
+      movieTitle: "",
+      listTitle: null
     }
     this.renderMovieDetails = this.renderMovieDetails.bind(this);
     this.renderChangeRating = this.renderChangeRating.bind(this);
@@ -59,8 +60,14 @@ class ListView extends Component {
     const id = this.props.match.params.id
     this.setState({id})
     this.getMovies(id);
+    this.getListTitle(id)
   }
 
+  getListTitle(id){
+    return axios.get('http://localhost:4000/lists/' + id).then((res) => {
+      this.setState({listTitle: res.data.title});
+      })
+  }
   getMovies(id){
       return axios.get('http://localhost:4000/lists/' + id + '/show_movies').then((res) => {
         this.setState({movies: res.data.reverse()})
@@ -187,19 +194,20 @@ class ListView extends Component {
     const {id} = this.state;
     return(
       <div>
-        <h2>Movie List Thing!       -- Average Rating: {this.state.avgRating}</h2>
-        <p> Click on a Title to See Movie Details! </p>
-        {this.renderMovies()}
-        <FindMovies classNameForm={"findmoviesonlist"} classNameResults={"listmovieresults"}
-        addOne={true} currentList={id}
-        onListUpdated={this.getMovies.bind(this, id)}
-        onSearch={this.toggleDisplay.bind(this)}
-        childDisplay={this.state.childDisplay}
-        />
-        {this.displayMovie()}
-        {this.renderChangeRating()}
-        {this.filterButtons()}
-
+        <h2>{this.state.listTitle}       -- Average Rating: {this.state.avgRating}</h2>
+        <div className={'movielist'}>
+          <p> Click on a Title to See Movie Details! </p>
+          {this.renderMovies()}
+          <FindMovies classNameForm={"findmoviesonlist"} classNameResults={"listmovieresults"}
+          addOne={true} currentList={id}
+          onListUpdated={this.getMovies.bind(this, id)}
+          onSearch={this.toggleDisplay.bind(this)}
+          childDisplay={this.state.childDisplay}
+          />
+          {this.displayMovie()}
+          {this.renderChangeRating()}
+          {this.filterButtons()}
+        </div>
       </div>
     )
   }

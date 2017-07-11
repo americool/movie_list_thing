@@ -10,7 +10,7 @@ class Main extends Component {
       <div >
         <div className="App-header">
           <img src={logo} className="App-logo" alt="logo" />
-          <h2>Movie List Thing!</h2>
+          <h2 className={'title'}>Movie List Thing!</h2>
         </div>
         <Login />
       </div>
