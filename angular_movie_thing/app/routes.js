@@ -5,7 +5,7 @@ movieThing.config(function ($routeProvider) {
         controller: 'mainController'
     })
 
-     .when('/addtomany', {
+    .when('/addtomany', {
         templateUrl: 'pages/addtomanylists.htm',
         controller: 'addtomanyController'
     })
@@ -13,6 +13,14 @@ movieThing.config(function ($routeProvider) {
     .when('/list/:id', {
         templateUrl: 'pages/viewlist.htm',
         controller: 'viewlistController'
+    })
+    .when('/signup', {
+      templateUrl:'pages/signup.htm',
+      controller:'signUpController'
+    })
+    .when('/signin', {
+      templateUrl:'pages/signIn.htm',
+      controller:'signInController'
     })
     .otherwise({
       redirectTo: '/'

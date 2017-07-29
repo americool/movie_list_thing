@@ -3,19 +3,30 @@
 </div>
 
 <div ng-show="email">
-  <h2> This is a List </h2>
+  <h2> {{listTitle || "This is a List"}} -- Avg Rating: {{avgRating}} </h2>
   <is-logged-in></is-logged-in>
   <display-movie></display-movie>
-  <div ng-repeat="movie in movies"/>
-    <p ng-click="showSavedMovie(movie.imdbid)"> {{movie.title}} -- {{movie.rating}} </p>
+    <strong>Re-Order:</strong>
+    <button ng-repeat="filter in filters" ng-click="changeFilter(filter.type, filter.reverse)">  {{filter.name}} </button>
+  <div ng-repeat="movie in movies | orderBy:order:reverse"/>
+    <p ng-click="showSavedMovie(movie.imdbid); openRatingChange(movie.id, movie.title, movie.rating); "> {{movie.title}} -- {{movie.rating}} </p>
     <button ng-click="deleteMovie(movie.id)"> Delete? </button>
   </div>
   <search-imdb></search-imdb>
+
   <div class="add-to-list" ng-show="viewAddToList">
     <form ng-submit="addMovie()">
         Rating:
         <input type="number" step=".5" min="1" max="5" ng-model="currentRating" />
         <input type="submit" value="Add Movie?" />
+    </form>
+  </div>
+
+  <div class="add-to-list" ng-show="showRatingChange" ng-cloak>
+    <form ng-submit="changeRating(savedMovieRating,savedMovieId)">
+        Change Rating for {{savedMovieTitle}}:
+        <input type="number" step=".5" min="1" max="5" ng-model="savedMovieRating" />
+        <input type="submit" value="Change" />
     </form>
   </div>
 

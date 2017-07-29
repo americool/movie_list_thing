@@ -2,6 +2,7 @@ movieThing.factory('logOut', function(){
   return {
     clear: function() {
       this.email = null;
+      this.userID = null;
     }
   }
 })

@@ -1,17 +1,35 @@
-// NON-API SERVICES
-movieThing.service('loggedIn', function() {
-    localStorage.setItem('email', 'aberanderson@gmail.com');
-    localStorage.setItem('userID', 1);
+// LogIN Auth
+movieThing.service('loggedIn',['$http','$window', function($http, $window) {
+  self = this;
 
-    this.email = localStorage.getItem('email');
-    this.userID = localStorage.getItem('userID');
-    // this.email = null;
-});
+  this.setUserInfo = function(jwt) {
+    var req = {
+      method: 'POST',
+      url:'http://localhost:4000/users/get_user',
+      data: {
+          payload: jwt
+        }
+      }
+     $http(req).then(function(res) {
+       console.log(res);
+       self.email = res.data.email;
+       self.userID = res.data.id;
+       console.log('hey')
+       $window.location.href='/'
+        // localStorage.setItem('email', res.data.email);
+        // localStorage.setItem('userID', res.data.id);
+     })
+  }
+}]);
 
 
 //API STUFF
 
 movieThing.service('apiCalls',['$resource','$http', function($resource, $http) {
+    this.getListTitle = function(listID) {
+      var list = $resource('http://localhost:4000/lists/:id');
+        return list.get({id:listID}).$promise;
+    }
     //get Lists for user
     this.getLists = function(user_id) {
       var lists = $resource('http://localhost:4000/users/:id/show_lists_details', { query: {method:'get', isArray:true}});
@@ -20,7 +38,7 @@ movieThing.service('apiCalls',['$resource','$http', function($resource, $http) {
     //get movies for List
     this.getMovies = function(list_id) {
       var movies = $resource('http://localhost:4000/lists/:id/show_movies', { query: {method:'get', isArray:true}});
-      return movies.query({id:list_id});
+      return movies.query({id:list_id}).$promise;
     }
     //imdb calls
     this.findMovieByTitle = function(api_key, title) {
@@ -97,6 +115,35 @@ movieThing.service('apiCalls',['$resource','$http', function($resource, $http) {
         }
       }
 
+      return $http(req)
+    }
+
+    this.changeRating = function(rating, imdbID) {
+      var req = {
+        method: 'PATCH',
+        url: 'http://localhost:4000/movies/'+ imdbID,
+        data: {
+          movie: {
+            rating: rating
+          }
+        }
+      }
+      return $http(req)
+    }
+
+    //Sign in & Up Stuff w/ authentication
+
+    this.signIn = function(email, password) {
+      var req = {
+        method: 'POST',
+        url:'http://localhost:4000/user_token',
+        data: {
+          auth: {
+            email: email,
+            password: password,
+          }
+        }
+      }
       return $http(req)
     }
 }])

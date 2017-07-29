@@ -5,6 +5,12 @@ p {
 a {
   font-size: 1.3vw;
 }
+
+.plot {
+  position: relative;
+  left: 37vw;
+  width: 25vw;
+}
 .add-to-list {
   position: absolute;
   right: 10vw;
