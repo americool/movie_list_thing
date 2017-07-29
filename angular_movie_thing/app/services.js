@@ -12,7 +12,7 @@ movieThing.service('loggedIn',['$http', function($http) {
       }
       return $http(req).then(function(res) {
         localStorage.setItem('email', res.data.email);
-        localStorage.setItem('userID', res.data.id);
+        localStorage.setItem('id', res.data.id);
      }).catch((err) => {
        alert(err);
      });
@@ -138,6 +138,21 @@ movieThing.service('apiCalls',['$resource','$http', function($resource, $http) {
           auth: {
             email: email,
             password: password,
+          }
+        }
+      }
+      return $http(req)
+    }
+
+    this.addUser = function(email, password, passwordConfirmation) {
+      var req = {
+        method: 'POST',
+        url:'http://localhost:4000/users',
+        data: {
+          user: {
+            email: email,
+            password: password,
+            password_confirmation: passwordConfirmation
           }
         }
       }

@@ -4,7 +4,7 @@ movieThing.factory('logOut', function(){
       this.email = null;
       this.userID = null;
       localStorage.removeItem('email');
-      localStorage.removeItem('userID');
+      localStorage.removeItem('id');
     }
   }
 })

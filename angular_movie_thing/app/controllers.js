@@ -5,7 +5,7 @@ movieThing.controller('mainController', ['$scope', 'loggedIn', 'logOut','apiCall
   $scope.listTitle=""
 
   $scope.logOut = logOut.clear;
-  $scope.lists = apiCalls.getLists(1);
+  $scope.lists = apiCalls.getLists($scope.userID);
 
   $scope.addList = function() {
     apiCalls.addList($scope.listTitle, $scope.userID).then(function(){
@@ -22,10 +22,31 @@ movieThing.controller('mainController', ['$scope', 'loggedIn', 'logOut','apiCall
 
 }]);
 
-movieThing.controller('signUpController',['$scope', 'apiCalls', 'loggedIn', function($scope, apiCalls, loggedIn){
+movieThing.controller('signUpController',['$scope','$window', 'apiCalls', 'loggedIn', function($scope, $window, apiCalls, loggedIn){
+  var makeErrorString = (obj) => {
+    let errorString = "Could not create User for the following reasons: \n";
+    for (var key in obj) {
+      errorString += key.charAt(0).toUpperCase() + key.slice(1) + ":\n"
+      obj[key].forEach(function(error){
+        errorString += "    - " + error.charAt(0).toUpperCase() + error.slice(1) + "\n";
+      })
+    }
+    return errorString;
+  }
   $scope.email ="";
   $scope.password="";
   $scope.passwordConfirmation="";
+
+  $scope.signUp = ($event) => {
+    $event.preventDefault();
+    apiCalls.addUser($scope.email, $scope.password, $scope.passwordConfirmation).then(function(res){
+      alert("New User!");
+      $window.location.href='/'
+    }).catch((err) => {
+      errorString = makeErrorString(err.data)
+      alert(errorString)
+    });
+  }
 }])
 
 movieThing.controller('signInController',['$scope', '$window', 'apiCalls', 'loggedIn', function($scope, $window, apiCalls, loggedIn){
