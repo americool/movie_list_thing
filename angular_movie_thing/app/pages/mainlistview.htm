@@ -1,0 +1,20 @@
+<div ng-hide="email">
+  <not-logged-in> </not-logged-in>
+</div>
+
+<div ng-show="email">
+  <h2> View Movie Lists! </h2>
+  <is-logged-in></is-logged-in>
+  <a class="add-to-many-link" href="#!/addtomany"> Add to Many Lists? </a>
+
+
+  <div ng-repeat="list in lists"/>
+    <a href=#!/list/{{list[0].id}}> {{list[0].title}} </a>
+    <p> Total Movies: {{list[1]}} || Average Rating: {{list[2]}} </p>
+  </div>
+
+  <form class="add-list" ng-submit="addList()">
+      <input type="text" ng-model="listTitle" />
+      <input type="submit" value="Add List?" />
+  </form>
+</div>

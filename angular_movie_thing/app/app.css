@@ -1,0 +1,63 @@
+/* app css stylesheet */
+.movie-details {
+  height:0px;
+  overflow:visible;
+  position: relative;
+  bottom: 10vh;
+  text-align: center;
+}
+.search-movie{
+  position: absolute;
+  top: 10vh;
+  right: 40vw;
+  text-align: center;
+  align-self: center;
+}
+.add-list{
+  position: absolute;
+  top: 20vh;
+  right: 40vw;
+  text-align: center;
+  align-self: center;
+}
+.plot {
+  font-size: .75vw;
+}
+.main-title {
+  text-align: center;
+  margin-bottom: 5vh;
+}
+.add-to-many-link {
+  position: absolute;
+  top: 9vh;
+  right: 45vw;
+  font-size: 1.5vw;
+}
+.log-out {
+  position: fixed;
+  top: 1vh;
+  right: 5vw;
+}
+.menu {
+  list-style: none;
+  border-bottom: 0.1em solid black;
+  margin-bottom: 2em;
+  padding: 0 0 0.5em;
+}
+
+.menu:before {
+  content: "[";
+}
+
+.menu:after {
+  content: "]";
+}
+
+.menu > li {
+  display: inline;
+}
+
+.menu > li + li:before {
+  content: "|";
+  padding-right: 0.3em;
+}
