@@ -1,8 +1,8 @@
 // LogIN Auth
-movieThing.service('loggedIn',['$http','$window', function($http, $window) {
-  self = this;
+movieThing.service('loggedIn',['$http', function($http) {
 
   this.setUserInfo = function(jwt) {
+    console.log(jwt)
     var req = {
       method: 'POST',
       url:'http://localhost:4000/users/get_user',
@@ -10,15 +10,12 @@ movieThing.service('loggedIn',['$http','$window', function($http, $window) {
           payload: jwt
         }
       }
-     $http(req).then(function(res) {
-       console.log(res);
-       self.email = res.data.email;
-       self.userID = res.data.id;
-       console.log('hey')
-       $window.location.href='/'
-        // localStorage.setItem('email', res.data.email);
-        // localStorage.setItem('userID', res.data.id);
-     })
+      return $http(req).then(function(res) {
+        localStorage.setItem('email', res.data.email);
+        localStorage.setItem('userID', res.data.id);
+     }).catch((err) => {
+       alert(err);
+     });
   }
 }]);
 

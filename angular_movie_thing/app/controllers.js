@@ -1,11 +1,8 @@
 movieThing.controller('mainController', ['$scope', 'loggedIn', 'logOut','apiCalls', function($scope, loggedIn, logOut, apiCalls) {
-  $scope.email = loggedIn.email;
-  $scope.userID = loggedIn.userID;
-  $scope.listTitle=""
 
-  $scope.$watch('email', function() {
-        loggedIn.email = $scope.email;
-  })
+  $scope.email = localStorage.getItem('email');
+  $scope.userID = localStorage.getItem('id');
+  $scope.listTitle=""
 
   $scope.logOut = logOut.clear;
   $scope.lists = apiCalls.getLists(1);
@@ -31,12 +28,17 @@ movieThing.controller('signUpController',['$scope', 'apiCalls', 'loggedIn', func
   $scope.passwordConfirmation="";
 }])
 
-movieThing.controller('signInController',['$scope', 'apiCalls', 'loggedIn', function($scope, apiCalls, loggedIn){
+movieThing.controller('signInController',['$scope', '$window', 'apiCalls', 'loggedIn', function($scope, $window, apiCalls, loggedIn){
   $scope.email ="";
   $scope.password="";
-  $scope.signIn = () => {
+  $scope.signIn = ($event) => {
+    $event.preventDefault()
     apiCalls.signIn($scope.email, $scope.password).then(function(res){
-      loggedIn.setUserInfo(res.data.jwt);
+      loggedIn.setUserInfo(res.data.jwt).then(function(res){
+        $window.location.href='/'
+      });
+    }).catch((err) => {
+      alert('Dont Have it!')
     });
   }
 }])
@@ -47,8 +49,8 @@ movieThing.controller('signInController',['$scope', 'apiCalls', 'loggedIn', func
 movieThing.controller('viewlistController', ['$scope', '$routeParams', 'loggedIn','logOut','apiCalls','clearMovieSearch', function($scope, $routeParams, loggedIn, logOut, apiCalls, clearMovieSearch) {
 
 //SCOPE n'at
-  $scope.email = loggedIn.email
-  $scope.userID = loggedIn.userID;
+  $scope.email = localStorage.getItem('email');
+  $scope.userID = localStorage.getItem('id');
   $scope.listTitle = null;
   $scope.avgRating = "N/A";
   $scope.filters = [
@@ -70,10 +72,6 @@ movieThing.controller('viewlistController', ['$scope', '$routeParams', 'loggedIn
   //set factory reusable functions
   $scope.logOut = logOut.clear;
   $scope.clearMovieSearch = clearMovieSearch.enter
-
-  $scope.$watch('email', function() {
-        loggedIn.email = $scope.email;
-  })
 
   $scope.changeFilter = (order, reverse) => {
     $scope.order = order;
@@ -163,12 +161,9 @@ movieThing.controller('viewlistController', ['$scope', '$routeParams', 'loggedIn
 
 movieThing.controller('addtomanyController',['$scope','loggedIn','logOut', 'clearMovieSearch','apiCalls', function($scope, loggedIn, logOut, clearMovieSearch,apiCalls) {
   //scope vars
-  $scope.email = loggedIn.email
-  $scope.userID = loggedIn.userID;
+  $scope.email = localStorage.getItem('email');
+  $scope.userID = localStorage.getItem('id');
 
-  $scope.$watch('email', function() {
-        loggedIn.email = $scope.email;
-  })
   $scope.movieTitle = "";
   //set factory reusable functions
   $scope.logOut = logOut.clear;

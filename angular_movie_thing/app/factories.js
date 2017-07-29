@@ -3,6 +3,8 @@ movieThing.factory('logOut', function(){
     clear: function() {
       this.email = null;
       this.userID = null;
+      localStorage.removeItem('email');
+      localStorage.removeItem('userID');
     }
   }
 })
