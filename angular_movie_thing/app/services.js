@@ -40,7 +40,7 @@ movieThing.service('apiCalls',['$resource','$http', function($resource, $http) {
           user_id: id
         }
       }
-      return list.query({}, body).$promise;
+      return list.save({}, body).$promise;
     }
     this.deleteList = function(list_id){
       var list = $resource('http://localhost:4000/lists/:id')
@@ -48,14 +48,30 @@ movieThing.service('apiCalls',['$resource','$http', function($resource, $http) {
     }
     //adding/deleting movies
 
-    this.addMovie = function(listID, movieID, rating){
-      var movie = $resource('http://localhost:4000/lists/add_movie_to_list')
-      var body = {
-        list_id: listID,
-        movie_id: movieID,
-        rating: rating
+    this.addMovie = function(title, imdbID, rating, listID){
+      var movieToDB = $resource('http://localhost:4000/movies/');
+      console.log(title);
+      var dbBody = {
+        movie: {
+          title: title,
+          rating: rating,
+          imdbid: imdbID
+        }
       }
-      return list.save({}, body).$promise;
+      return movieToDB.save({}, dbBody).$promise.then(function(res){
+        console.log(listID, res.id, rating);
+
+        var req = {
+          method: 'POST',
+          url: 'http://localhost:4000/lists/add_movie_to_list',
+          data: {
+            list_id: listID,
+            movie_id: res.id,
+            rating: rating
+          }
+        }
+        return $http(req)
+      })
     }
     //Get Rating --> using http due a bug I found described on stackoverflow that for some reason would return the data as an array individual characters
     this.getRating = function(imdbID){

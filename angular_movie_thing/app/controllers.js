@@ -56,7 +56,10 @@ movieThing.controller('viewlistController', ['$scope', '$routeParams', 'loggedIn
     });
   }
   $scope.addMovie = function() {
-
+    console.log($scope.displayMovie);
+    apiCalls.addMovie($scope.displayMovie.Title, $scope.displayMovie.imdbID, $scope.currentRating, $routeParams.id).then(function(){
+      $scope.movies = apiCalls.getMovies($routeParams.id);
+    })
   }
 
 }]);
