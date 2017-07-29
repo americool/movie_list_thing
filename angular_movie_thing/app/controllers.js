@@ -61,6 +61,11 @@ movieThing.controller('viewlistController', ['$scope', '$routeParams', 'loggedIn
       $scope.movies = apiCalls.getMovies($routeParams.id);
     })
   }
+  $scope.deleteMovie = (movieID) => {
+    apiCalls.deleteMovie($routeParams.id, movieID).then(function(){
+      $scope.movies = apiCalls.getMovies($routeParams.id);
+    })
+  }
 
 }]);
 

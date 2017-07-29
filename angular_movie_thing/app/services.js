@@ -73,6 +73,18 @@ movieThing.service('apiCalls',['$resource','$http', function($resource, $http) {
         return $http(req)
       })
     }
+    this.deleteMovie = function(listID, movieID){
+      console.log(listID, movieID)
+      var req = {
+        method: 'POST',
+        url: 'http://localhost:4000/lists/delete_movie',
+        data: {
+          list_id: listID,
+          movie_id: movieID
+        }
+      }
+      return $http(req);
+    }
     //Get Rating --> using http due a bug I found described on stackoverflow that for some reason would return the data as an array individual characters
     this.getRating = function(imdbID){
       var req = {

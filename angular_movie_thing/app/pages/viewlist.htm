@@ -8,6 +8,7 @@
   <display-movie></display-movie>
   <div ng-repeat="movie in movies"/>
     <p ng-click="showSavedMovie(movie.imdbid)"> {{movie.title}} -- {{movie.rating}} </p>
+    <button ng-click="deleteMovie(movie.id)"> Delete? </button>
   </div>
   <search-imdb></search-imdb>
   <div class="add-to-list" ng-show="viewAddToList">
