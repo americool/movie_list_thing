@@ -8,13 +8,16 @@
   <a class="add-to-many-link" href="#!/addtomany"> Add to Many Lists? </a>
 
 
-  <div ng-repeat="list in lists"/>
+  <div ng-repeat="list in lists | orderBy:'id':true"/>
     <a href=#!/list/{{list[0].id}}> {{list[0].title}} </a>
     <p> Total Movies: {{list[1]}} || Average Rating: {{list[2]}} </p>
+    <button ng-click="deleteList(list[0].id)">Delete?</button>
+    <br/><br/>
   </div>
 
   <form class="add-list" ng-submit="addList()">
       <input type="text" ng-model="listTitle" />
       <input type="submit" value="Add List?" />
   </form>
+
 </div>

@@ -1,6 +1,7 @@
 movieThing.controller('mainController', ['$scope', 'loggedIn', 'logOut','apiCalls', function($scope, loggedIn, logOut, apiCalls) {
   $scope.email = loggedIn.email;
   $scope.userID = loggedIn.userID;
+  $scope.listTitle=""
 
   $scope.$watch('email', function() {
         loggedIn.email = $scope.email;
@@ -8,8 +9,18 @@ movieThing.controller('mainController', ['$scope', 'loggedIn', 'logOut','apiCall
 
   $scope.logOut = logOut.clear;
   $scope.lists = apiCalls.getLists(1);
+
   $scope.addList = function() {
-    console.log('adding...')
+    apiCalls.addList($scope.listTitle, $scope.userID).then(function(){
+      $scope.lists = apiCalls.getLists($scope.userID);
+      $scope.listTitle =""
+    })
+  }
+
+  $scope.deleteList = (listID) => {
+    apiCalls.deleteList(listID).then(function(){
+      $scope.lists = apiCalls.getLists($scope.userID);
+    })
   }
 
 }]);
@@ -19,6 +30,7 @@ movieThing.controller('viewlistController', ['$scope', '$routeParams', 'loggedIn
 
   $scope.email = loggedIn.email
   $scope.userID = loggedIn.userID;
+  $scope.viewAddToList = false;
 
   $scope.$watch('email', function() {
         loggedIn.email = $scope.email;
@@ -33,8 +45,18 @@ movieThing.controller('viewlistController', ['$scope', '$routeParams', 'loggedIn
     $scope.displayMovie = apiCalls.findMovieByImdb(API_KEY, imdb);
   }
   $scope.searchMovieTitle = function() {
-    $scope.displayMovie = apiCalls.findMovieByTitle(API_KEY, $scope.movieTitle);
-    console.log($scope.displayMovie)
+    apiCalls.findMovieByTitle(API_KEY, $scope.movieTitle).then(function(res){
+      $scope.displayMovie = res
+      $scope.viewAddToList = true;
+      console.log($scope.displayMovie)
+      console.log($scope.displayMovie.imdbID)
+      apiCalls.getRating($scope.displayMovie.imdbID).then(function(res){
+        $scope.currentRating = parseFloat(res.data);
+      });
+    });
+  }
+  $scope.addMovie = function() {
+
   }
 
 }]);
