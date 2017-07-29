@@ -78,6 +78,7 @@ class ListView extends Component {
 
   changeRating() {
     console.log(this.state)
+    const id = this.props.match.params.id
     const {rating, movieId} = this.state;
     axios.patch('http://localhost:4000/movies/' + movieId, {
       movie: {
@@ -86,7 +87,7 @@ class ListView extends Component {
     }).then((res) => {
       alert("Changed!");
       this.setState({ratingDisplayOn: false, rating: "", movieId: null})
-      this.getMovies()
+      this.getMovies(id);
     }).catch((error) => {
       alert(error)
     })
