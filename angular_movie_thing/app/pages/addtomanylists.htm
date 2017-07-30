@@ -8,8 +8,8 @@
   <display-movie></display-movie>
   <div class="add-to-list" ng-show="viewAddToManyLists">
     <form ng-submit="addMovieToLists()">
-        <div ng-repeat="list in lists">
-          <input type="checkbox" ng-model="list.id">{{list.title}}
+        <div ng-repeat="(listId, list) in listStatus">
+          <input type="checkbox" ng-model="list.checked" ng-true-value="true" ng-false-value="false">{{list.title}}
         </div>
         Rating:
         <input type="number" step=".5" min="1" max="5" ng-model="currentRating" />

@@ -191,21 +191,20 @@ movieThing.controller('addtomanyController',['$scope','loggedIn','logOut', 'clea
   $scope.clearMovieSearch = clearMovieSearch.enter
   $scope.viewAddToManyLists=false;
   //real stuff
-  // $scope.listStatus = []
+  $scope.listStatus = {};
   apiCalls.getListsSimple($scope.userID).then((res) => {
-    $scope.lists = res;
-    res.forEach(list => {
-      $scope[list.id] = false;
-    })
-
+    // $scope.lists = res;
     // res.forEach(list => {
-    //   console.log("HEY")
-    //   $scope.listStatus.push({
-    //     title: list.title,
-    //     id: list.id,
-    //     checked: false
-    //   })
+    //   $scope[list.id] = false;
     // })
+    res.forEach(list => {
+      console.log("HEY")
+      $scope.listStatus[list.id] = {
+        title: list.title,
+        checked: false,
+        id: list.id
+      }
+    })
   })
 
   $scope.searchMovieTitle = function() {
@@ -219,8 +218,8 @@ movieThing.controller('addtomanyController',['$scope','loggedIn','logOut', 'clea
         $scope.viewAddToManyLists = true;
         console.log($scope.displayMovie)
         apiCalls.whichListsHaveMovie($scope.displayMovie.imdbID).then((res) => {
-          $scope.lists.forEach(list => $scope[list.id] = false);
-          res.data.forEach(list => $scope[list.id] = true);
+          for(var key in $scope.listStatus) {$scope.listStatus[key].checked = false};
+          res.data.forEach(list => $scope.listStatus[list.id].checked = true);
           console.log(res);
           console.log($scope);
         })

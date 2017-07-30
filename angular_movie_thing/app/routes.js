@@ -19,7 +19,7 @@ movieThing.config(function ($routeProvider) {
       controller:'signUpController'
     })
     .when('/signin', {
-      templateUrl:'pages/signIn.htm',
+      templateUrl:'pages/signin.htm',
       controller:'signInController'
     })
     .otherwise({
