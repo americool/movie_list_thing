@@ -180,7 +180,7 @@ movieThing.controller('viewlistController', ['$scope', '$routeParams', 'loggedIn
 
 
 
-movieThing.controller('addtomanyController',['$scope','loggedIn','logOut', 'clearMovieSearch','apiCalls', function($scope, loggedIn, logOut, clearMovieSearch,apiCalls) {
+movieThing.controller('addtomanyController',['$scope','$route','loggedIn','logOut', 'clearMovieSearch','apiCalls', function($scope, $route, loggedIn, logOut, clearMovieSearch,apiCalls) {
   //scope vars
   $scope.email = localStorage.getItem('email');
   $scope.userID = localStorage.getItem('id');
@@ -229,5 +229,22 @@ movieThing.controller('addtomanyController',['$scope','loggedIn','logOut', 'clea
       }
     });
   }
+
+  $scope.addMovieToLists = ($event) => {
+    $event.preventDefault();
+
+    let array = [];
+    Object.keys($scope.listStatus).forEach(key => {
+      if ($scope.listStatus[key].checked){
+        array.push(key)
+      }
+
+    apiCalls.addMovieToLists($scope.displayMovie.Title, $scope.displayMovie.imdbID, $scope.currentRating, array).then((res)=>{
+      console.log(res);
+      $route.reload()
+    })
+
+  });
+}
 
 }]);

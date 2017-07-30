@@ -177,4 +177,28 @@ movieThing.service('apiCalls',['$resource','$http', function($resource, $http) {
       return $http(req);
     }
 
+    this.addMovieToLists = function(title, imdbID, rating, array) {
+        var movieToDB = $resource('http://localhost:4000/movies/');
+        var dbBody = {
+          movie: {
+            title: title,
+            rating: rating,
+            imdbid: imdbID
+          }
+        }
+        return movieToDB.save({}, dbBody).$promise.then(function(res){
+          console.log("here")
+          var req = {
+            method: 'POST',
+            url:'http://localhost:4000/movies/change_lists',
+            data: {
+              lists: array,
+              imdbid: imdbID,
+              rating: rating
+            }
+          }
+          return $http(req);
+        })
+    }
+
 }])

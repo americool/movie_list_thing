@@ -7,7 +7,7 @@
   <search-imdb></search-imdb>
   <display-movie></display-movie>
   <div class="add-to-list" ng-show="viewAddToManyLists">
-    <form ng-submit="addMovieToLists()">
+    <form ng-submit="addMovieToLists($event)">
         <div ng-repeat="(listId, list) in listStatus">
           <input type="checkbox" ng-model="list.checked" ng-true-value="true" ng-false-value="false">{{list.title}}
         </div>
