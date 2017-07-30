@@ -189,11 +189,46 @@ movieThing.controller('addtomanyController',['$scope','loggedIn','logOut', 'clea
   //set factory reusable functions
   $scope.logOut = logOut.clear;
   $scope.clearMovieSearch = clearMovieSearch.enter
-
+  $scope.viewAddToManyLists=false;
   //real stuff
+  // $scope.listStatus = []
+  apiCalls.getListsSimple($scope.userID).then((res) => {
+    $scope.lists = res;
+    res.forEach(list => {
+      $scope[list.id] = false;
+    })
+
+    // res.forEach(list => {
+    //   console.log("HEY")
+    //   $scope.listStatus.push({
+    //     title: list.title,
+    //     id: list.id,
+    //     checked: false
+    //   })
+    // })
+  })
+
   $scope.searchMovieTitle = function() {
-    $scope.displayMovie = apiCalls.findMovieByTitle(API_KEY, $scope.movieTitle)
-    console.log($scope.displayMovie)
+    $scope.viewAddToManyLists = false;
+    apiCalls.findMovieByTitle(API_KEY, $scope.movieTitle).then(function(res){
+      if (res.Error) {
+        alert('Cannot Find!')
+      }
+      else {
+        $scope.displayMovie = res
+        $scope.viewAddToManyLists = true;
+        console.log($scope.displayMovie)
+        apiCalls.whichListsHaveMovie($scope.displayMovie.imdbID).then((res) => {
+          $scope.lists.forEach(list => $scope[list.id] = false);
+          res.data.forEach(list => $scope[list.id] = true);
+          console.log(res);
+          console.log($scope);
+        })
+        apiCalls.getRating($scope.displayMovie.imdbID).then(function(res){
+          $scope.currentRating = parseFloat(res.data);
+        });
+      }
+    });
   }
 
 }]);

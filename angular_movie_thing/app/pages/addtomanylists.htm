@@ -6,4 +6,14 @@
   <is-logged-in></is-logged-in>
   <search-imdb></search-imdb>
   <display-movie></display-movie>
+  <div class="add-to-list" ng-show="viewAddToManyLists">
+    <form ng-submit="addMovieToLists()">
+        <div ng-repeat="list in lists">
+          <input type="checkbox" ng-model="list.id">{{list.title}}
+        </div>
+        Rating:
+        <input type="number" step=".5" min="1" max="5" ng-model="currentRating" />
+        <input type="submit" value="Add Movie To Lists?" />
+    </form>
+  </div>
 </div>

@@ -158,4 +158,23 @@ movieThing.service('apiCalls',['$resource','$http', function($resource, $http) {
       }
       return $http(req)
     }
+
+    //ADD TO MANY API calls
+
+    this.getListsSimple = function(user_id) {
+      var lists = $resource('http://localhost:4000/users/:id/show_lists', { query: {method:'get', isArray:true}});
+      return lists.query({id:user_id}).$promise;
+    }
+
+    this.whichListsHaveMovie = function(imdbID) {
+      var req = {
+        method: 'POST',
+        url: 'http://localhost:4000/lists/get_lists_with_movie',
+        data: {
+          imdbid: imdbID
+        }
+      }
+      return $http(req);
+    }
+
 }])
