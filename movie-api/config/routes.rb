@@ -16,5 +16,7 @@ Rails.application.routes.draw do
   match 'lists/delete_movie' => 'lists#delete_movie', :via => :post
   match 'movies/change_lists' => 'movies#change_lists', :via => :post
   match 'movies/get_rating' => 'movies#get_rating', :via => :post
+  match 'movies/imdb_by_id' => 'movies#imdb_by_id', :via => :post
+  match 'movies/imdb_by_title' => 'movies#imdb_by_title', :via => :post
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
 end

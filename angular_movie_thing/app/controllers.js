@@ -123,16 +123,19 @@ movieThing.controller('viewlistController', ['$scope', '$routeParams', 'loggedIn
   });
   $scope.showSavedMovie = function(imdb) {
     $scope.viewAddToList = false;
-    $scope.displayMovie = apiCalls.findMovieByImdb(API_KEY, imdb);
+    apiCalls.findMovieByImdb(imdb).then((res) => {
+      console.log(res);
+      $scope.displayMovie = res.data;
+    });
   }
   $scope.searchMovieTitle = function() {
-      $scope.viewAddToList = false;
-    apiCalls.findMovieByTitle(API_KEY, $scope.movieTitle).then(function(res){
-      if (res.Error) {
+    $scope.viewAddToList = false;
+    apiCalls.findMovieByTitle($scope.movieTitle).then(function(res){
+      if (res.data.Error) {
         alert('Cannot Find!')
       }
       else {
-        $scope.displayMovie = res
+        $scope.displayMovie = res.data
         $scope.viewAddToList = true;
         console.log($scope.displayMovie)
         console.log($scope.displayMovie.imdbID)
@@ -209,12 +212,12 @@ movieThing.controller('addtomanyController',['$scope','$route','loggedIn','logOu
 
   $scope.searchMovieTitle = function() {
     $scope.viewAddToManyLists = false;
-    apiCalls.findMovieByTitle(API_KEY, $scope.movieTitle).then(function(res){
-      if (res.Error) {
+    apiCalls.findMovieByTitle($scope.movieTitle).then(function(res){
+      if (res.data.Error) {
         alert('Cannot Find!')
       }
       else {
-        $scope.displayMovie = res
+        $scope.displayMovie = res.data
         $scope.viewAddToManyLists = true;
         console.log($scope.displayMovie)
         apiCalls.whichListsHaveMovie($scope.displayMovie.imdbID).then((res) => {

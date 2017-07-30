@@ -20,6 +20,10 @@ gem 'bcrypt'
 
 gem 'sqlite3'
 
+gem 'httparty'
+
+gem 'figaro'
+
 
 
 # To use ActiveModel has_secure_password
