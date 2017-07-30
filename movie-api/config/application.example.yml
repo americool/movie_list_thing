@@ -1,0 +1,2 @@
+#this is the sample figaro file, you'll need your own add your own OMDB IMDB API key here
+IMDBKEY:"YOUR_KEY_GOES_HERE"
