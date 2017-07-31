@@ -25,7 +25,8 @@
 
   <div class="add-to-list" ng-show="showRatingChange" ng-cloak>
     <form ng-submit="changeRating(savedMovieRating,savedMovieId)">
-        Change Rating for {{savedMovieTitle}}:
+        Change Rating for {{savedMovieTitle}}?
+        <br/>
         <input type="number" step=".5" min="1" max="5" ng-model="savedMovieRating" />
         <input type="submit" value="Change" />
     </form>
