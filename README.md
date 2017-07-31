@@ -11,19 +11,21 @@ Backend:
 Frontend (React.js):
  (uses react, can be run with npm or yarn)
 
- IMDB="YOUR_API_KEY_GOES_HERE" yarn start
+ ~IMDB="YOUR_API_KEY_GOES_HERE" yarn start~
+
+ **^^DON'T DO THIS: Update figaro's config/application.example.yml file with your key and drop the "example" part as described below and within the example file itself** 
 
  Sign Up, then Sign In. Have Fun.
 
-For Angular app: NPM/Yarn Start should work and install local dependencies 
+For Angular app: NPM/Yarn Start should work and install local dependencies
 
- # New features:
+ # New features for AngularJS frontEnd:
 
  1.) The API Key has been moved to the backend via rails figaro gem. Change the config/application.example.yml to application.example and add your own imdb key. Slightly more detailed instructions are in the example file. This may not be the ideal solution, by it seems securer than the previous solution.
 
  2.) I’ve moved the change rating button out of the main list-view interface. Now upon clicking on a movie saved to a list the user is prompted with an Update rating for {movie} option. I felt this was a more elegant way to handle rating changes of movies saved to lists.
 
- # Additional Notes:
+ # Additional Notes post Angular Update:
 
  1.) I started out working with $ng-resource as a way to make API calls because it was heavily encouraged by documentation and tutorials I watched. However the more I worked with my current backend creation I realized that using $http requests were more suited for my needs.  I also realize that to probably maximize the advantages of using $resource, i should have stored the API calls within a factory and made get/post/etc requests within the same function, however It didn’t seem particularly pragmatic to the current backend api calls I had built and my experience with various tutorials had primarily demonstrated keeping api calls in services.
 
@@ -37,7 +39,7 @@ For Angular app: NPM/Yarn Start should work and install local dependencies
 # Additional Thoughts:
 In retrospect, it is arguably quite obvious that I should have built this using redux. At first glance it didn't seem as though I would need to manage enough different pieces of state between components to justify the initial extra setup up time. However if I were to rebuild or revise the project, I think using redux to manage state would be the way to go.
 
-Additionally I'm aware that passing the ImdbApiKey via the front end is not a long term secure solution and it really should be handled on the backend, but again for short term development purposes this seemed to be acceptable for simply trying to get the components and functionality up and running.
+~Additionally I'm aware that passing the ImdbApiKey via the front end is not a long term secure solution and it really should be handled on the backend, but again for short term development purposes this seemed to be acceptable for simply trying to get the components and functionality up and running.~
 
 It should also be noted that this project has **not been styled** seriously in anyway. I focused almost exclusively on the functionality and features, and really only used the quickest CSS to simply keep the elements from bumping into each other on normal sized laptop screen. Attempting to dramatically shrink the screen (weather to mock mobile views or while inspecting the page) may produce some pretty ugly results.
 
