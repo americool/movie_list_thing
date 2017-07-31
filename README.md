@@ -11,15 +11,17 @@ Backend:
 Frontend (React.js):
  (uses react, can be run with npm or yarn)
 
+ For Angular Frontend app: NPM/Yarn Start should work and install local dependencies
+
  ~IMDB="YOUR_API_KEY_GOES_HERE" yarn start~
 
- **^^DON'T DO THIS: Update figaro's config/application.example.yml file with your key and drop the "example" part as described below and within the example file itself** 
+ **^^DON'T DO THIS: Update figaro's config/application.example.yml file with your key and drop the "example" part as described below and within the example file itself**
 
  Sign Up, then Sign In. Have Fun.
 
-For Angular app: NPM/Yarn Start should work and install local dependencies
 
- # New features for AngularJS frontEnd:
+
+ # New features for AngularJS Frontend:
 
  1.) The API Key has been moved to the backend via rails figaro gem. Change the config/application.example.yml to application.example and add your own imdb key. Slightly more detailed instructions are in the example file. This may not be the ideal solution, by it seems securer than the previous solution.
 
