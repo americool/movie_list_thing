@@ -15,7 +15,7 @@ For Angular Frontend app: NPM/Yarn Start should install local dependencies
 
  ~IMDB="YOUR_API_KEY_GOES_HERE" yarn start~
 
- **^^DON'T DO THIS: Update figaro's .yml file at *movie-api/config/application.example.yml* in file with your key and drop the "example" part as described below and in more detail in the example file itself**
+ **^^DON'T DO THIS: Update figaro's .yml file at *movie-api/config/application.example.yml* with your key and drop the "example" part as described below and in more detail in the example file itself**
 
  Sign Up, then Sign In. Have Fun.
 
@@ -23,9 +23,11 @@ For Angular Frontend app: NPM/Yarn Start should install local dependencies
 
  # New features for AngularJS Frontend:
 
- 1.) The API Key has been moved to the backend via rails figaro gem. Change the config/application.example.yml to application.example and add your own imdb key. Slightly more detailed instructions are in the example file. This may not be the ideal solution, by it seems securer than the previous solution.
+ 1.) The API Key has been moved to the backend via rails figaro gem. Change the config/application.example.yml to application.example and add your own imdb key. Slightly more detailed instructions are in the example file. This may not be the ideal solution, by it seems more secure than the previous approach.
 
- 2.) I’ve moved the change rating button out of the main list-view interface. Now upon clicking on a movie saved to a list the user is prompted with an Update rating for {movie} option. I felt this was a more elegant way to handle rating changes of movies saved to lists.
+ 2.) I’ve removed the "change rating" button from the list-view page. Instead, now upon clicking on a movie saved to a list the user is prompted with an Update rating option along side the displayed movie details. I felt this removed unnecessary details from the page, and provided a more elegant way to handle rating changes of movies saved to lists that was also in symmetry (both visually and in terms of reusable components) with searching for a movie by title. (*Note: displaying a movie and its details is now also handled by a single component for all three cases where it used.*)
+
+ 3.) The Filter buttons are also handled more elegantly with an NG-repeat function that iterates through an array of objects which each contain a name, filter-type, and a boolean reverse property.
 
  # Additional Notes post Angular Update:
 

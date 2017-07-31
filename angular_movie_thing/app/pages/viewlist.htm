@@ -8,6 +8,7 @@
   <display-movie></display-movie>
     <strong>Re-Order:</strong>
     <button ng-repeat="filter in filters" ng-click="changeFilter(filter.type, filter.reverse)">  {{filter.name}} </button>
+    <h3> Click on a Movie to See Details:</h3>
   <div ng-repeat="movie in movies | orderBy:order:reverse"/>
     <p ng-click="showSavedMovie(movie.imdbid); openRatingChange(movie.id, movie.title, movie.rating); "> {{movie.title}} -- {{movie.rating}} </p>
     <button ng-click="deleteMovie(movie.id)"> Delete? </button>
