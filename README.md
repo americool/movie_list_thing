@@ -8,14 +8,14 @@ Backend:
 (once rails is bundled and all is well)
  puma -p 4000
 
-Frontend (React.js):
+Original Frontend (React.js):
  (uses react, can be run with npm or yarn)
 
- For Angular Frontend app: NPM/Yarn Start should work and install local dependencies
+For Angular Frontend app: NPM/Yarn Start should install local dependencies
 
  ~IMDB="YOUR_API_KEY_GOES_HERE" yarn start~
 
- **^^DON'T DO THIS: Update figaro's config/application.example.yml file with your key and drop the "example" part as described below and within the example file itself**
+ **^^DON'T DO THIS: Update figaro's .yml file at *movie-api/config/application.example.yml* in file with your key and drop the "example" part as described below and in more detail in the example file itself**
 
  Sign Up, then Sign In. Have Fun.
 
@@ -29,7 +29,7 @@ Frontend (React.js):
 
  # Additional Notes post Angular Update:
 
- 1.) I started out working with $ng-resource as a way to make API calls because it was heavily encouraged by documentation and tutorials I watched. However the more I worked with my current backend creation I realized that using $http requests were more suited for my needs.  I also realize that to probably maximize the advantages of using $resource, i should have stored the API calls within a factory and made get/post/etc requests within the same function, however It didn’t seem particularly pragmatic to the current backend api calls I had built and my experience with various tutorials had primarily demonstrated keeping api calls in services.
+ 1.) I started out working with $resource as a way to make API calls because it was heavily encouraged by documentation and tutorials I watched (without being clearly explained). However the more I worked with my current backend creation, (and encountered a few bugs and limitations of $resource,) I realized that using the standard $http requests were more suited for my needs. There are still some $resource calls throughout my code that are basically functioning as plain $http requests and not taking advantages of the RESTful features allowed by $resource. In further revision I might consider removing them or building some kind of factory which allows multiple calls from a single API endpoint (which would probably require some backend re-configuration as well,) as oppose to using them as singular functions from a service.
 
  2.) Thought it didn’t seem necessary at the earlier phases, the individual controllers should probably broken into separate files. The api calls in services could also be broken down more.
 
