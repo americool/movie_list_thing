@@ -25,7 +25,9 @@ class FindMovies extends Component {
     event.preventDefault();
     const title = this.convertString(this.state.title)
     let movieProps;
-    axios.get('http://www.omdbapi.com/?apikey=' + API_KEY + '&t=' + title).then((res) => {
+    axios.post('http://localhost:4000/movies/imdb_by_title',{
+      title: title
+    }).then((res) => {
       if (res.data.Error)
         throw "Movie Not Found!"
       movieProps = res.data;

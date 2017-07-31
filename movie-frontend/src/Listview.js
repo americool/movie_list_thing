@@ -134,7 +134,9 @@ class ListView extends Component {
 
   renderMovieDetails(id) {
     this.setState({displayOn:false, childDisplay:false});
-    axios.get('http://www.omdbapi.com/?apikey=' + API_KEY + '&i=' + id).then((res) => {
+    axios.post('http://localhost:4000/movies/imdb_by_id',{
+      imdbid: id
+    }).then((res) => {
       this.setState({displayOn: true, movieProps: res.data, ratingDisplayOn: false})
       console.log(res);
       if (res.data.Error){
