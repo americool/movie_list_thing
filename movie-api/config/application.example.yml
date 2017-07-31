@@ -1,2 +1,6 @@
-#this is the sample figaro file, you'll need your own add your own OMDB IMDB API key here
-IMDBKEY:"YOUR_KEY_GOES_HERE"
+#this is the sample figaro file, you'll need your own add your own OMDB IMDB API key here then rename the file "application.yml" then add it to your .gitignore file. DO NOT SHARE YOUR KEY. Feel free to make an additional application.example.yml file if you like.
+
+#note the space prior to your quoted string (API KEY) is required. You cannot launch the app otherwise. 
+      #here
+#       V
+IMDBKEY: "YOUR_KEY_GOES_HERE"
